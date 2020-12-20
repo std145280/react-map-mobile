@@ -263,26 +263,32 @@ export default function TourRequest() {
   return (
     <>
       <NavigationBar />
-      <div>
+   
         <form>
-          <h2 className="text-center">New Tour Request</h2>
-
-    
-
           <div className="form-group">
             <center>
               <br />
               <Card className="cardAsItems" border="secondary">
-                <Card.Header>
-                  <b>Select Starting Place</b>
-                </Card.Header>
-
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-secondary btn-lg rounded-0"
                   type="submit"
                   onClick={toggleMapPopupSTART}
                 >
-                  <i className="fas fa-map-marked-alt">{`  Map`}</i>
+                  <i className="fas fa-chevron-left">{`   BACK`}</i>
+                </button>
+              </Card>
+
+              <Card className="cardAsItems" border="secondary">
+                <Card.Header>
+                  <b></b>
+                </Card.Header>
+
+                <button
+                  className="btn btn-primary btn-lg rounded-0"
+                  type="submit"
+                  onClick={toggleMapPopupSTART}
+                >
+                  <i className="fas fa-map-marked-alt">{`  Select Starting Place`}</i>
                 </button>
                 <Card.Footer>
                   <div className="form-group">
@@ -299,7 +305,7 @@ export default function TourRequest() {
 
               <Card className="cardAsItems" border="secondary">
                 <Card.Header>
-                  <b>Select Starting Place</b>
+                  <b>Time available for your tour</b>
                 </Card.Header>
                 <Card.Body></Card.Body>
 
@@ -308,17 +314,19 @@ export default function TourRequest() {
 
               <Card className="cardAsItems" border="secondary">
                 <Card.Header>
-                  <b>Select Starting Place</b>
+                  <b></b>
                 </Card.Header>
 
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg rounded-0"
                   type="submit"
                   onClick={toggleMapPopupFINISH}
                 >
-                  <i className="fas fa-map-marked-alt">{`  Map`}</i>
+                  <i className="fas fa-map-marked-alt">{`  Select Starting Place`}</i>
                 </button>
-                <Card.Footer>                  <div className="form-group">
+                <Card.Footer>
+                  {" "}
+                  <div className="form-group">
                     <textarea
                       type="text"
                       className="form-control"
@@ -326,53 +334,21 @@ export default function TourRequest() {
                       placeholder="Click the 'Map' button to add the general area of the tour."
                       rows="3"
                     />{" "}
-                  </div></Card.Footer>
+                  </div>
+                </Card.Footer>
+              </Card>
+
+              <Card className="cardAsItems" border="secondary">
+                <button
+                  className="btn btn-success btn-lg rounded-0"
+                  type="submit"
+                  onClick={toggleMapPopupSTART}
+                >
+                  {`NEXT   `}<i className="fas fa-chevron-right"></i>
+                </button>
               </Card>
             </center>
           </div>
-
-          <div>
-            <br />
-
-            <tr>
-              {" "}
-              <div className="form-group">
-                <button
-                  className="btn btn-success btn-lg"
-                  type="submit"
-                  onClick={togglePopupMsg}
-                >
-                  {" "}
-                  Submit{" "}
-                </button>
-                {isOpen && (
-                  <PopupMsg
-                    content={
-                      <>
-                        <b>Question</b>
-                        <p>Are you sure you want to request this tour?</p>
-                        <center>
-                          <Link
-                            to="/"
-                            className="btn btn-success btn-lg"
-                            onClick={createRentRequest}
-                          >
-                            Yes{" "}
-                          </Link>
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                          <button
-                            className="btn btn-warning btn-lg"
-                            type="submit"
-                            onClick={togglePopupMsg}
-                          >
-                            {" "}
-                            No{" "}
-                          </button>
-                        </center>
-                      </>
-                    }
-                  />
-                )}
 
                 {isMapOpen && (
                   <PopupMap
@@ -401,11 +377,9 @@ export default function TourRequest() {
                     }
                   />
                 )}
-              </div>
-            </tr>
-          </div>
+
         </form>
-      </div>
+
     </>
   );
 }
