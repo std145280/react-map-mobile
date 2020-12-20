@@ -18,7 +18,7 @@ import Profile from "./Profile";
 import RentRequests from "./RentRequests";
 import Settings from "./Settings";
 import Tours from "./Tours";
-import TourGuides from "./TourGuides";
+import TourRequest from "./TourRequest";
 import Vehicles from "./Vehicles";
 
 function App() {
@@ -39,23 +39,17 @@ function App() {
                 />
 
                 <PrivateRoute path="/About" component={About} />
-                <PrivateRoute
-                  path="/AddPointOfInterest"
-                  component={AddPointOfInterest}
-                />
-                <PrivateRoute path="/AddTour" component={AddTour} />
-                <PrivateRoute path="/AddTourGuide" component={AddTourGuide} />
-                <PrivateRoute path="/AddVehicle" component={AddVehicle} />
-                <PrivateRoute
-                  path="/PointOfInterest"
-                  component={PointOfInterest}
-                />
+
+
+
+
                 <PrivateRoute path="/Profile" component={Profile} />
-                <PrivateRoute path="/RentRequests" component={RentRequests} />
+
                 <PrivateRoute path="/Settings" component={Settings} />
-                <PrivateRoute path="/TourGuides" component={TourGuides} />
+
+                <PrivateRoute path="/TourRequest" component={TourRequest} />
                 <PrivateRoute path="/Tours" component={Tours} />
-                <PrivateRoute path="/Vehicles" component={Vehicles} />
+
 
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />

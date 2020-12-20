@@ -1,11 +1,15 @@
 
 import React, { useState, useEffect } from "react";
-import { CardDeck, Card, Carousel } from "react-bootstrap";
+import { CardDeck, Card, Carousel, Button } from "react-bootstrap";
 import NavigationBar from "./NavigationBar";
+import { Link, useHistory } from "react-router-dom";
 import PopupMsg from "./control/PopupMsg";
 import firebase from "../firebase";
 
+
 export default function Tours() {
+  const history = useHistory();
+
   const [tourList, setTourList] = useState();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -119,21 +123,16 @@ export default function Tours() {
                       }
                     )
                   : ""}
-              {` ${el.descForCustomer}`} <br />
+              {` ${el.city}`} <br />
               {` ${el.tourCost}`} <br />
               {`  decription: ${el.decription}`} <br />
               {`  location: ${el.location}`} <br />
             </div>
           </Card.Body>
           <Card.Footer>
-          <center>
-            <button className="btn btn-danger" onClick={togglePopupMsg}>
-              <i className="fa fa-trash-alt"></i>
-            </button>
+
            
 
-
-          </center>
           </Card.Footer>
         </Card>
 
@@ -187,6 +186,7 @@ export default function Tours() {
 
         <CardDeck>{displayCard()}</CardDeck>
       </div>
+      <Button onClick={() => history.push("/")}>Back to main</Button>
     </>
   );
 }

@@ -120,6 +120,16 @@
     0 -2px 0 #000000;
 }
 
+.startCards{
+  width: 95vw;
+}
+
+.cardAsItems{
+  width: 95vw;
+  border-radius: 0;
+}
+
+
 body {
   padding-top: 80px;
   background: rgba(179, 179, 179, 0.582);
