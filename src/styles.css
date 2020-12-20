@@ -104,6 +104,10 @@
   padding: 1px;
 }
 
+.navbar.navbar-dark.bg-dark{
+  background-color: #210025!important;
+}
+
 .formStyle {
   position: relative;
   max-width: 400px;
