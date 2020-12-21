@@ -3,7 +3,7 @@ import { Card, Carousel, Table } from "react-bootstrap";
 import PopupMsg from "./PopupMsg";
 import firebase from "../../firebase";
 
-import Map from "./LeafletMap";
+import Map from "./LeafletMapTour";
 import PopupMap from "./PopupMap";
 
 export default function TourList({ tour }) {
@@ -134,10 +134,11 @@ export default function TourList({ tour }) {
           content={
             <>
               <center>
-                <h3> Insert Point of Interest's location </h3>
+                <h3> Tours Points Of Interest </h3>
               </center>
               <div>
-                <Map.LeafletMap />
+                {console.log(tour.poi)}
+                <Map.LeafletMapTour tour={tour} />
               </div>
               <br />
               <center>
