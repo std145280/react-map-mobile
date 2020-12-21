@@ -1,7 +1,7 @@
 /* PopupMsg style */
 .PopupMsg-box {
   position: fixed;
-  background: #00000050;
+  background: #000000bb;
   width: 100%;
   height: 100vh;
   top: 0;
@@ -29,7 +29,7 @@
   max-width: 95vw;
   margin: 0 auto;
   height: auto;
-  max-height: 90vh;
+  max-height: 80vh;
   margin-top: calc(100vh - 95vh - 5px);
   background: rgb(231, 231, 231);
   border-radius: 8px;
@@ -40,11 +40,12 @@
 
 .mapBox {
   position: relative;
-  width: 400px;
+  width: 100vw;
+
   margin: 0 auto;
-  height: auto;
-  max-height: 100vh;
-  margin-top: calc(100vh - 90vh - 20px);
+  height: 100vh;
+
+  margin-top: calc(100vh - 100vh - 0px);
   background: #fff;
   border-radius: 4px;
   padding: 20px;
@@ -55,7 +56,7 @@
 .leaflet-container {
   height: 100%;
   width: 100%;
-  max-height: 400px;
+  max-height: 80vh;
 }
 
 .appStyles {
@@ -104,8 +105,8 @@
   padding: 1px;
 }
 
-.navbar.navbar-dark.bg-dark{
-  background-color: #210025!important;
+.navbar.navbar-dark.bg-dark {
+  background-color: #400047 !important;
 }
 
 .formStyle {
@@ -120,17 +121,23 @@
     0 -2px 0 #000000;
 }
 
-.startCards{
-  width: 95vw;
+.startCards {
+  width: 94vw;
 }
 
-.cardAsItems{
-  width:100vw;
+.cardAsItems {
+  width: 100vw;
   border-radius: 0;
 }
 
+.mobileTourCard {
+  width: 100vw;
+  border-radius: 0;
+}
 
 body {
-  padding-top: 80px;
+  width: 95vw;
+  height: 60vh;
+  padding-top: 60px;
   background: rgba(179, 179, 179, 0.582);
 }

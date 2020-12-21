@@ -11,8 +11,6 @@ import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
 import { Link, useHistory } from "react-router-dom";
 
-
-
 export default function TourRequest(uuid) {
   useEffect(() => {
     const rentRef = firebase.database().ref("tour");
@@ -222,13 +220,170 @@ export default function TourRequest(uuid) {
     return (degree * Math.PI) / 180;
   };
   /////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
 
-  const startFinishTime = () => {
+  const displayCard = () => {
+    return (
+      <CardDeck>{tourList ? tourList.map((el) => oneCard(el)) : ""}</CardDeck>
+    );
+  };
+
+  const oneCard = (el) => {
+    return (
+      <>
+        <Card className="mobileTourCard" style={{ flex: 1 }}>
+          <Card.Body>
+            <div key={el.id}>
+              <Card.Title>
+                <center>
+                  <h4>{`${el.title}`}</h4>
+                </center>
+              </Card.Title>
+              <Carousel>
+                {el.imageUrl
+                  ? el.imageUrl.map(({ id, url }) => {
+                      return (
+                        <Carousel.Item interval={500}>
+                          <div key={id}>
+                            <img
+                              className="d-block w-100"
+                              src={url}
+                              alt=""
+                              width={320}
+                              height={225}
+                            />
+                          </div>
+                        </Carousel.Item>
+                      );
+                    })
+                  : ""}
+                {/* //>>>>>>>>>>></Carousel>EXTRA CAROUSEL ITEMS*/}
+                {el.poi
+                  ? el.poi.map(
+                      ({
+                        city,
+                        decription,
+                        geoLat,
+                        geoLng,
+                        id,
+                        imageUrl,
+                        name,
+                        ticketCost,
+                        time,
+                        type,
+                      }) => {
+                        return (
+                          <Carousel.Item interval={500}>
+                            <div key={imageUrl[0].id}>
+                              <img
+                                className="d-block w-100"
+                                src={imageUrl[0].url}
+                                alt=""
+                                width={320}
+                                height={225}
+                              />
+                            </div>
+                            <Carousel.Caption>
+                              <p className="borderText">{name}</p>
+                            </Carousel.Caption>
+                          </Carousel.Item>
+                        );
+                      }
+                    )
+                  : ""}
+                {/*} /<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */}
+              </Carousel>
+              <br />
+              {el.poi
+                ? el.poi.map(
+                    ({
+                      city,
+                      decription,
+                      geoLat,
+                      geoLng,
+                      id,
+                      imageUrl,
+                      name,
+                      ticketCost,
+                      time,
+                      type,
+                    }) => {}
+                  )
+                : ""}
+              {` ${el.city}`} <br />
+              {` ${el.tourCost}`} <br />
+              {`  decription: ${el.decription}`} <br />
+              {`  location: ${el.location}`} <br />
+            </div>
+          </Card.Body>
+          <Card.Footer>
+            <button
+              className="btn btn-warning btn-lg"
+              type="submit"
+              onClick={togglePopupMsg}
+            >
+              {" "}
+              SELECT{" "}
+            </button>
+
+            <button
+              className="btn btn-warning btn-lg"
+              type="submit"
+              onClick={togglePopupMsg}
+            >
+              {" "}
+              MORE{" "}
+            </button>
+          </Card.Footer>
+        </Card>
+
+        {isOpen && (
+          <PopupMsg
+            content={
+              <>
+                <b>Question</b>
+                <p>Are you sure you want to delete this tour?</p>
+                <center>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button
+                    className="btn btn-warning btn-lg"
+                    type="submit"
+                    onClick={togglePopupMsg}
+                  >
+                    {" "}
+                    No{" "}
+                  </button>
+                </center>
+              </>
+            }
+          />
+        )}
+      </>
+    );
+  };
+
+  //////////////////////////////////////////////////////////////////////
+
+  const testerFunction = () => {
+    setStartLatlng(37.99869678317832, 23.656674973851633);
+    setFinishLatlng (37.975128641985066, 23.826645460073326);
+    setTourTime (250);
+
+    setHasFinish(true);
+    setHasStart(true);
+    setHasTime(true);
+    setNext1(true);
+  }
+
+
+  const requestWizard = () => {
     if (hasStart && hasFinish && hasTime && next1) {
-      return <h3>Hi</h3>;
+      return <CardDeck>{displayCard()}</CardDeck>;
     } else {
       return (
+          
         <form>
+            {testerFunction()}
           <div className="form-group">
             <center>
               <br />
@@ -387,7 +542,8 @@ export default function TourRequest(uuid) {
   return (
     <>
       <NavigationBar />
-      {startFinishTime()}
+      
+      {requestWizard()}
     </>
   );
 }
