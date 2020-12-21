@@ -21,7 +21,7 @@ export default function TourList({ tour }) {
     return (
       <div>
   
-        <Card className="cardItem" style={{ flex: 1 }}>
+        <Card className="mobileTourCard" style={{ flex: 1 }}>
           <Card.Body>
             <Table striped bordered hover>
               <thead></thead>
