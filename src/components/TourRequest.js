@@ -11,6 +11,11 @@ import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
 import { Link, useHistory } from "react-router-dom";
 
+import L from "leaflet";
+import "leaflet-routing-machine";
+import "lrm-google";
+import { withLeaflet } from "react-leaflet";
+
 export default function TourRequest(uuid) {
   useEffect(() => {
     const rentRef = firebase.database().ref("tour");
@@ -219,6 +224,18 @@ export default function TourRequest(uuid) {
   const toRadian = (degree) => {
     return (degree * Math.PI) / 180;
   };
+
+
+ /*const [waypoints[], setStartLatlng] = useState({ latitude: 0, longitude: 0 });
+  const setStartLocationLatlng = (newLatlng) => {
+    setStartLatlng(newLatlng);
+    setHasStart(true);
+  };*/
+
+  var routeControl = L.Routing.control({
+    waypoints: [L.latLng(37.99869678317832, 23.656674973851633), L.latLng(37.975128641985066, 23.826645460073326)],
+  })
+
   /////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
 
@@ -366,24 +383,22 @@ export default function TourRequest(uuid) {
 
   const testerFunction = () => {
     setStartLatlng(37.99869678317832, 23.656674973851633);
-    setFinishLatlng (37.975128641985066, 23.826645460073326);
-    setTourTime (250);
+    setFinishLatlng(37.975128641985066, 23.826645460073326);
+    setTourTime(250);
 
     setHasFinish(true);
     setHasStart(true);
     setHasTime(true);
     setNext1(true);
-  }
-
+  };
 
   const requestWizard = () => {
     if (hasStart && hasFinish && hasTime && next1) {
       return <CardDeck>{displayCard()}</CardDeck>;
     } else {
       return (
-          
         <form>
-            {testerFunction()}
+          {testerFunction()}
           <div className="form-group">
             <center>
               <br />
@@ -542,7 +557,7 @@ export default function TourRequest(uuid) {
   return (
     <>
       <NavigationBar />
-      
+
       {requestWizard()}
     </>
   );
