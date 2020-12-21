@@ -5,10 +5,11 @@ import NavigationBar from "./NavigationBar";
 import firebase from "../firebase";
 import PopupMsg from "./control/PopupMsg";
 import PopupMap from "./control/PopupMap";
-import { Link } from "react-router-dom";
+
 import Map from "./control/LeafletMap";
 import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
+import { Link, useHistory } from "react-router-dom";
 
 export default function TourRequest() {
   useEffect(() => {
@@ -24,9 +25,19 @@ export default function TourRequest() {
     });
   }, []);
 
-  const [latlng, setLatlng] = useState({ latitude: 0, longitude: 0 });
-  const setLocationLatlng = (newLatlng) => {
-    setLatlng(newLatlng);
+  const history = useHistory();
+
+  const [startLatlng, setStartLatlng] = useState({ latitude: 0, longitude: 0 });
+  const setStartLocationLatlng = (newLatlng) => {
+    setStartLatlng(newLatlng);
+  };
+
+  const [finishLatlng, setFinishLatlng] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+  const setFinishLocationLatlng = (newLatlng) => {
+    setFinishLatlng(newLatlng);
   };
 
   const [radius, setRadius] = useState("");
@@ -34,29 +45,30 @@ export default function TourRequest() {
     setRadius(e.target.value);
   };
 
-  const [location, setLocation] = useState(
+  const [startLocation, setStartLocation] = useState(
     "Click the 'Map' button to add the general area of the tour."
   );
-  const setLocationName = (newName) => {
-    setLocation(newName);
+  const setStartLocationName = (newName) => {
+    setStartLocation(newName);
   };
 
-  const [isMapOpen, setIsMapOpen] = useState(false);
-  const toggleMapPopup = (e) => {
-    e.preventDefault();
-    setIsMapOpen(!isMapOpen);
+  const [finishLocation, setFinishLocation] = useState(
+    "Click the 'Map' button to add the general area of the tour."
+  );
+  const setFinishLocationName = (newName) => {
+    setFinishLocation(newName);
   };
 
-  const [isMapFinishOpen, setIsFinishMapOpen] = useState(false);
-  const toggleMapPopupSTART = (e) => {
+  const [isFinishMapOpen, setIsFinishMapOpen] = useState(false);
+  const toggleMapPopupFINISH = (e) => {
     e.preventDefault();
-    setIsMapOpen(!isMapFinishOpen);
+    setIsFinishMapOpen(!isFinishMapOpen);
   };
 
   const [isStartMapOpen, setIsStartMapOpen] = useState(false);
-  const toggleMapPopupFINISH = (e) => {
+  const toggleMapPopupSTART = (e) => {
     e.preventDefault();
-    setIsMapOpen(!isStartMapOpen);
+    setIsStartMapOpen(!isStartMapOpen);
   };
 
   const [isPointSelectorOpen, setIsPointSelectorOpen] = useState(false);
@@ -75,6 +87,11 @@ export default function TourRequest() {
   const togglePoiPopup = (e) => {
     e.preventDefault();
     setIsPoiPopupOpen(!isPoiPopupOpen);
+  };
+
+  const [tourTime, setTourTime] = useState("");
+  const handleAvailableTourTime = (e) => {
+    setTourTime(e.target.value);
   };
 
   const addToPoi = (el) => {
@@ -115,22 +132,17 @@ export default function TourRequest() {
     });
   };
 
-  const createRentRequest = () => {
-    var rentRef = firebase.database().ref("rentRequest");
-
-    var totalCost = 0;
-    var totalTime = 0;
+  const tempRentRequest = () => {
+    var tempRentRef = firebase.database().ref("tempRentRequest");
 
     var rentRequest = {
-      name: "tourname",
-
-      tourCost: parseFloat(totalCost).toFixed(2),
-      time: parseInt(totalTime),
-      startGeoLat: latlng.lat,
-      finishGeoLong: latlng.lng,
-      tour: "",
+      availableTime: parseInt(tourTime),
+      startGeoLat: startLatlng.lat,
+      startGeoLong: startLatlng.lng,
+      finishGeoLat: finishLatlng.lat,
+      finishGeoLong: finishLatlng.lng,
     };
-    rentRef.push(rentRequest);
+    tempRentRef.push(rentRequest);
   };
 
   const diplayAddOrDeleteButton = (el) => {
@@ -182,204 +194,182 @@ export default function TourRequest() {
   };
   /////////////////////////////////////////////////////////////
 
-  const oneCard = (el) => {
-    var distance = getDistance(
-      [latlng.lat, latlng.lng],
-      [el.geoLat, el.geoLng]
-    );
-    if (distance < radius * 1000)
-      return (
-        <>
-          <Card className="card-PoIforTourOnPopup" style={{ flex: 1 }}>
-            <Card.Body>
-              <div key={el.id}>
-                <Card.Title>
-                  <center>
-                    <h4>{`${el.name}`}</h4>
-                  </center>
-                </Card.Title>
-                <Carousel>
-                  {el.imageUrl
-                    ? el.imageUrl.map(({ id, url }) => {
-                        return (
-                          <Carousel.Item interval={500}>
-                            <div key={id}>
-                              <img
-                                className="d-block w-100"
-                                src={url}
-                                alt=""
-                                width={320}
-                                height={225}
-                              />
-                            </div>
-                          </Carousel.Item>
-                        );
-                      })
-                    : ""}
-                </Carousel>
-                <br />
-                {`City: ${el.city}`} <br />
-                {` type: ${el.type}`} <br />
-                {`  decription: ${el.decription}`} <br />
-                {`  location: ${el.location}`} <br />
-              </div>
-            </Card.Body>
-            <Card.Footer>
-              <center>{diplayAddOrDeleteButton(el)}</center>
-            </Card.Footer>
-          </Card>
-        </>
-      );
-  };
 
-  const displayCard = () => {
+  var item = 0;
+  
+  const startFinishTime = () => {
+
+   
     return (
-      <CardDeck>{tourList ? tourList.map((el) => oneCard(el)) : ""}</CardDeck>
-    );
-  };
+      <form>
+        <div className="form-group">
+          <center>
+            <br />
+            <Card className="cardAsItems" border="secondary">
+              <button
+                className="btn btn-secondary btn-lg rounded-0"
+                type="submit"
+                onClick={() => history.push("/")}
+              >
+                <i className="fas fa-chevron-left">{`   BACK`}</i>
+              </button>
+            </Card>
 
-  const enableAddPoisButton = () => {
-    if (latlng.lat !== undefined)
-      return (
-        <button
-          className="btn btn-primary btn-lg"
-          type="submit"
-          onClick={togglePoiPopup}
-        >
-          {" "}
-          Add PoIs{" "}
-        </button>
-      );
-    else {
-      return (
-        <button className="btn btn-primary btn-lg" disabled>
-          {" "}
-          Add PoIs{" "}
-        </button>
-      );
-    }
+            <Card className="cardAsItems" border="secondary">
+              <Card.Header>
+                <b></b>
+              </Card.Header>
+
+              <button
+                className="btn btn-primary btn-lg rounded-0"
+                type="submit"
+                onClick={toggleMapPopupSTART}
+              >
+                <i className="fas fa-map-marked-alt">{`  START`}</i>
+              </button>
+              <Card.Footer>
+                <div className="form-group">
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    value={startLocation}
+                    placeholder="Click the 'START' button to select where you want to start your tour."
+                    rows="3"
+                  />{" "}
+                </div>
+              </Card.Footer>
+            </Card>
+
+            <Card className="cardAsItems" border="secondary">
+              <Card.Header>
+                <b></b>
+              </Card.Header>
+
+              <button
+                className="btn btn-primary btn-lg rounded-0"
+                type="submit"
+                onClick={toggleMapPopupFINISH}
+              >
+                <i className="fas fa-map-marked-alt">{`  FINISH`}</i>
+              </button>
+              <Card.Footer>
+                {" "}
+                <div className="form-group">
+                  <textarea
+                    type="text"
+                    className="form-control"
+                    value={finishLocation}
+                    placeholder="Click the 'FINISH' button to select where you want to finish your tour."
+                    rows="3"
+                  />{" "}
+                </div>
+              </Card.Footer>
+            </Card>
+
+            <Card className="cardAsItems" border="secondary">
+              <Card.Header>
+                <br />
+                <h4>
+                  Time available for your tour <i class="far fa-clock"></i>
+                </h4>
+              </Card.Header>
+              <Card.Body>
+                <div className="form-group">
+                  <input
+                    type="number"
+                    className="form-control"
+                    onChange={handleAvailableTourTime}
+                    value={tourTime}
+                    placeholder="Available time for your tour.*"
+                  />
+                  <small class="form-text text-primary">
+                    *Please insert the available time in minutes.
+                  </small>
+                </div>
+              </Card.Body>
+
+              <Card.Footer></Card.Footer>
+            </Card>
+
+            <Card className="cardAsItems" border="secondary">
+              <button
+                className="btn btn-success btn-lg rounded-0"
+                type="submit"
+                onClick={tempRentRequest}
+              >
+                {`NEXT   `}
+                <i className="fas fa-chevron-right"></i>
+              </button>
+            </Card>
+          </center>
+        </div>
+
+        {isStartMapOpen && (
+          <PopupMap
+            content={
+              <>
+                <h3> Insert Place </h3>
+                <div>
+                  <Map.LeafletMap
+                    setLocationLatlng={setStartLocationLatlng}
+                    setLocationName={setStartLocationName}
+                  />
+                </div>
+                <br />
+                <center>
+                  {" "}
+                  <button
+                    className="btn btn-success btn-lg"
+                    type="submit"
+                    onClick={toggleMapPopupSTART}
+                  >
+                    {" "}
+                    Done{" "}
+                  </button>
+                </center>
+              </>
+            }
+          />
+        )}
+
+        {isFinishMapOpen && (
+          <PopupMap
+            content={
+              <>
+                <h3> Insert Place </h3>
+                <div>
+                  <Map.LeafletMap
+                    setLocationLatlng={setFinishLocationLatlng}
+                    setLocationName={setFinishLocationName}
+                  />
+                </div>
+                <br />
+                <center>
+                  {" "}
+                  <button
+                    className="btn btn-success btn-lg"
+                    type="submit"
+                    onClick={toggleMapPopupFINISH}
+                  >
+                    {" "}
+                    Done{" "}
+                  </button>
+                </center>
+              </>
+            }
+          />
+        )}
+      </form>
+    );
+
+    
+
   };
 
   return (
     <>
       <NavigationBar />
-   
-        <form>
-          <div className="form-group">
-            <center>
-              <br />
-              <Card className="cardAsItems" border="secondary">
-                <button
-                  className="btn btn-secondary btn-lg rounded-0"
-                  type="submit"
-                  onClick={toggleMapPopupSTART}
-                >
-                  <i className="fas fa-chevron-left">{`   BACK`}</i>
-                </button>
-              </Card>
-
-              <Card className="cardAsItems" border="secondary">
-                <Card.Header>
-                  <b></b>
-                </Card.Header>
-
-                <button
-                  className="btn btn-primary btn-lg rounded-0"
-                  type="submit"
-                  onClick={toggleMapPopupSTART}
-                >
-                  <i className="fas fa-map-marked-alt">{`  Select Starting Place`}</i>
-                </button>
-                <Card.Footer>
-                  <div className="form-group">
-                    <textarea
-                      type="text"
-                      className="form-control"
-                      value={location}
-                      placeholder="Click the 'Map' button to add the general area of the tour."
-                      rows="3"
-                    />{" "}
-                  </div>
-                </Card.Footer>
-              </Card>
-
-              <Card className="cardAsItems" border="secondary">
-                <Card.Header>
-                  <b>Time available for your tour</b>
-                </Card.Header>
-                <Card.Body></Card.Body>
-
-                <Card.Footer></Card.Footer>
-              </Card>
-
-              <Card className="cardAsItems" border="secondary">
-                <Card.Header>
-                  <b></b>
-                </Card.Header>
-
-                <button
-                  className="btn btn-primary btn-lg rounded-0"
-                  type="submit"
-                  onClick={toggleMapPopupFINISH}
-                >
-                  <i className="fas fa-map-marked-alt">{`  Select Starting Place`}</i>
-                </button>
-                <Card.Footer>
-                  {" "}
-                  <div className="form-group">
-                    <textarea
-                      type="text"
-                      className="form-control"
-                      value={location}
-                      placeholder="Click the 'Map' button to add the general area of the tour."
-                      rows="3"
-                    />{" "}
-                  </div>
-                </Card.Footer>
-              </Card>
-
-              <Card className="cardAsItems" border="secondary">
-                <button
-                  className="btn btn-success btn-lg rounded-0"
-                  type="submit"
-                  onClick={toggleMapPopupSTART}
-                >
-                  {`NEXT   `}<i className="fas fa-chevron-right"></i>
-                </button>
-              </Card>
-            </center>
-          </div>
-
-                {isMapOpen && (
-                  <PopupMap
-                    content={
-                      <>
-                        <h3> Insert Place </h3>
-                        <div>
-                          <Map.LeafletMap
-                            setLocationLatlng={setLocationLatlng}
-                            setLocationName={setLocationName}
-                          />
-                        </div>
-                        <br />
-                        <center>
-                          {" "}
-                          <button
-                            className="btn btn-success btn-lg"
-                            type="submit"
-                            onClick={toggleMapPopup}
-                          >
-                            {" "}
-                            Done{" "}
-                          </button>
-                        </center>
-                      </>
-                    }
-                  />
-                )}
-
-        </form>
-
+      {startFinishTime()}
     </>
   );
 }
