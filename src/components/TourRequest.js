@@ -16,6 +16,8 @@ import "leaflet-routing-machine";
 import "lrm-google";
 import { withLeaflet } from "react-leaflet";
 
+import TourList from "./control/TourList";
+
 export default function TourRequest(uuid) {
   useEffect(() => {
     const rentRef = firebase.database().ref("tour");
@@ -225,16 +227,18 @@ export default function TourRequest(uuid) {
     return (degree * Math.PI) / 180;
   };
 
-
- /*const [waypoints[], setStartLatlng] = useState({ latitude: 0, longitude: 0 });
+  /*const [waypoints[], setStartLatlng] = useState({ latitude: 0, longitude: 0 });
   const setStartLocationLatlng = (newLatlng) => {
     setStartLatlng(newLatlng);
     setHasStart(true);
   };*/
 
   var routeControl = L.Routing.control({
-    waypoints: [L.latLng(37.99869678317832, 23.656674973851633), L.latLng(37.975128641985066, 23.826645460073326)],
-  })
+    waypoints: [
+      L.latLng(37.99869678317832, 23.656674973851633),
+      L.latLng(37.975128641985066, 23.826645460073326),
+    ],
+  });
 
   /////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
@@ -394,7 +398,17 @@ export default function TourRequest(uuid) {
 
   const requestWizard = () => {
     if (hasStart && hasFinish && hasTime && next1) {
-      return <CardDeck>{displayCard()}</CardDeck>;
+      return (
+        <>
+          <CardDeck>
+            {tourList
+              ? tourList.map((tour, index) => (
+                  <TourList tour={tour} key={index} />
+                ))
+              : ""}
+          </CardDeck>
+        </>
+      );
     } else {
       return (
         <form>
