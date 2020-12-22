@@ -52,12 +52,13 @@ export default function VehicleList({
   /////////////////////////////////////////////////////////////
 
   const cardFilter = () => {
+console.log(startLatlng);
     var distance = getDistance(
-      [startLatlng[0], startLatlng[1]],
+      [startLatlng.lat, startLatlng.lng],
       [vehicle.geoLat, vehicle.geoLong]
     );
 
-    if (vehicle.availableForRent && distance < 50000)
+    if (vehicle.availableForRent && distance < 500000)
       return (
         <div>
           <h4 className={vehicle.complete ? "availableForRent" : ""}></h4>

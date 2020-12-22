@@ -19,6 +19,7 @@ export default function TourGuideList({ tourGuide }) {
     tourGuideRef.remove();
     setIsOpen(!isOpen);
   };
+  
   const changeAvailability = () => {
     const tourGuideRef = firebase
       .database()

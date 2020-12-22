@@ -11,6 +11,8 @@ import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
 import { Link, useHistory } from "react-router-dom";
 
+import PointSelectorMap from "./control/PointSelectorMap";
+
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "lrm-google";
@@ -53,16 +55,13 @@ export default function TourRequest(uuid) {
   const [hasTime, setHasTime] = useState(false);
   const [next1, setNext1] = useState(false);
 
-  const [startLatlng, setStartLatlng] = useState({ latitude: 0, longitude: 0 });
+  const [startLatlng, setStartLatlng] = useState();
   const setStartLocationLatlng = (newLatlng) => {
     setStartLatlng(newLatlng);
     setHasStart(true);
   };
 
-  const [finishLatlng, setFinishLatlng] = useState({
-    latitude: 0,
-    longitude: 0,
-  });
+  const [finishLatlng, setFinishLatlng] = useState();
   const setFinishLocationLatlng = (newLatlng) => {
     setFinishLatlng(newLatlng);
     setHasFinish(true);
@@ -188,11 +187,11 @@ export default function TourRequest(uuid) {
   var tourTitle;
   var carCost;
 
-  const rentRequest = () => {
+  const createRentRequest = () => {
     var rentReqRef = firebase.database().ref("rentRequest");
 
     var rentRequest = {
-      availableTime: parseInt(tourTime),
+      availableTime: (parseInt(tourTime)),
       startGeoLat: startLatlng.lat,
       startGeoLong: startLatlng.lng,
       finishGeoLat: finishLatlng.lat,
@@ -208,7 +207,7 @@ export default function TourRequest(uuid) {
 
       isAccepted: false,
     };
-    rentReqRef.push();
+    rentReqRef.push(rentRequest);
   };
 
   const diplayAddOrDeleteButton = (el) => {
@@ -273,9 +272,6 @@ export default function TourRequest(uuid) {
     setIsFinishOpen(!isFinishOpen);
   };
 
-  const sentRequest = () => {
-    
-  }
 
 
   const testerFunction = () => {
@@ -410,7 +406,7 @@ export default function TourRequest(uuid) {
                 <button
                   className="btn btn-success btn-lg rounded-0"
                   type="submit"
-                  onClick={tempRentRequest}
+                  onClick={togglePopupFinishMsg}
                 >
                   {`SENT REQUEST    `}
                   <i class="fa fa-upload" aria-hidden="true"></i>
@@ -423,12 +419,12 @@ export default function TourRequest(uuid) {
                       content={
                         <>
                           <b>Question</b>
-                          <p>Are you sure you want to create this tour?</p>
+                          <p>Are you sure you want to sent request for this tour?</p>
                           <center>
                             <Link
-                              to="/Tours"
+                              to="/"
                               className="btn btn-success btn-lg"
-                              onClick={sentRequest}
+                              onClick={createRentRequest}
                             >
                               Yes{" "}
                             </Link>
@@ -509,8 +505,6 @@ export default function TourRequest(uuid) {
     } else {
       return (
         <form>
-          {testerFunction()}
-
           <div className="form-group">
             <center>
               <br />
@@ -612,7 +606,7 @@ export default function TourRequest(uuid) {
                 <>
                   <h3> Insert Place </h3>
                   <div>
-                    <Map.LeafletMap
+                    <PointSelectorMap.PointSelectorMap
                       setLocationLatlng={setStartLocationLatlng}
                       setLocationName={setStartLocationName}
                     />
@@ -641,7 +635,7 @@ export default function TourRequest(uuid) {
                 <>
                   <h3> Insert Place </h3>
                   <div>
-                    <Map.LeafletMap
+                    <PointSelectorMap.PointSelectorMap
                       setLocationLatlng={setFinishLocationLatlng}
                       setLocationName={setFinishLocationName}
                     />
