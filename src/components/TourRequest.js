@@ -448,6 +448,7 @@ export default function TourRequest(uuid) {
     } else if (hasStart && hasFinish && hasTime && next1 && next2) {
       return (
         <>
+        <br/>
           <CardDeck>
             <Card className="cardAsItems" border="secondary">
               <button
@@ -476,6 +477,7 @@ export default function TourRequest(uuid) {
     } else if (hasStart && hasFinish && hasTime && next1) {
       return (
         <>
+        <br/>
           <CardDeck>
             <Card className="cardAsItems" border="secondary">
               <button
