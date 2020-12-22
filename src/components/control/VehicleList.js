@@ -27,7 +27,7 @@ export default function VehicleList({ vehicle }) {
     <div>
       <h4 className={vehicle.complete ? "availableForRent" : ""}></h4>
 
-      <Card className="cardItem" style={{ flex: 1 }}>
+      <Card className="cardAsItems" style={{ flex: 1 }}>
         <Card.Body>
           <Table striped bordered hover>
             <thead></thead>

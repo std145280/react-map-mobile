@@ -4,7 +4,7 @@ import PopupMsg from "./PopupMsg";
 import firebase from "../../firebase";
 import L from "leaflet";
 import Map from "./LeafletMapTour";
-import TourTime from "./LeafletMapTourTime";
+
 
 import PopupMap from "./PopupMap";
 
@@ -13,6 +13,8 @@ export default function TourList({
   startLatlng,
   finishLatlng,
   tourTime,
+  setSelectedTourID,
+  setNext2,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,6 +32,10 @@ export default function TourList({
   };
 
  
+  const tourSelectedHandle = () => {
+    setSelectedTourID(tour.id);
+    setNext2(true);
+  }
 
 
 
@@ -164,6 +170,16 @@ export default function TourList({
                 >
                   <i class="fas fa-map-marked-alt"></i>
                 </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <button
+                  className="btn btn-success btn-lg"
+                  onClick={tourSelectedHandle}
+                >
+                 <i class="fas fa-arrow-right"></i>
+                </button>
+
+
               </center>
             </Card.Footer>
           </Card>

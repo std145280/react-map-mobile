@@ -15,7 +15,7 @@ import L from "leaflet";
 import "leaflet-routing-machine";
 import "lrm-google";
 import { withLeaflet } from "react-leaflet";
-
+import VehicleList from "./control/VehicleList";
 import TourList from "./control/TourList";
 
 export default function TourRequest(uuid) {
@@ -29,6 +29,20 @@ export default function TourRequest(uuid) {
       }
       settourList(tourList);
       console.log(tourList);
+    });
+  }, []);
+
+  const [vehicleList, setVehicleList] = useState();
+  
+  useEffect(() => {
+    const vehicleRef = firebase.database().ref("vehicle");
+    vehicleRef.on("value", (snapshot) => {
+      const vehicle = snapshot.val();
+      const vehicleList = [];
+      for (let id in vehicle) {
+        vehicleList.push({ id, ...vehicle[id] });
+      }
+      setVehicleList(vehicleList);
     });
   }, []);
 
@@ -227,14 +241,12 @@ export default function TourRequest(uuid) {
     return (degree * Math.PI) / 180;
   };
 
-
   var routeControl = L.Routing.control({
     waypoints: [
       L.latLng(37.99869678317832, 23.656674973851633),
       L.latLng(37.975128641985066, 23.826645460073326),
     ],
   });
-
 
   const testerFunction = () => {
     setStartLatlng([37.99869678317832, 23.656674973851633]);
@@ -247,23 +259,63 @@ export default function TourRequest(uuid) {
     setNext1(true);
   };
 
+  const backToFirstSelector = (e) => {
+    e.preventDefault();
+    setNext1(false);
+  };
+
+  const [selectedTourID, setSelectedTourID] = useState([]);
+
+
+  const [next2, setNext2] = useState(false);
+
   const requestWizard = () => {
-    if (hasStart && hasFinish && hasTime && next1) {
+    if (hasStart && hasFinish && hasTime && next1 && next2) {
+      return (<>
+      
+      <CardDeck>
+          {vehicleList
+            ? vehicleList.map((vehicle, index) => (
+                <VehicleList vehicle={vehicle} key={index} />
+              ))
+            : ""}
+        </CardDeck>
+       </>);
+    }
+    
+    else if (hasStart && hasFinish && hasTime && next1) {
       return (
         <>
           <CardDeck>
+            <Card className="cardAsItems" border="secondary">
+              <button
+                className="btn btn-secondary btn-lg rounded-0"
+                type="submit"
+                onClick={backToFirstSelector}
+              >
+                <i className="fas fa-chevron-left">{`   BACK`}</i>
+              </button>
+            </Card>
             {tourList
               ? tourList.map((tour, index) => (
-                  <TourList tour={tour} startLatlng={startLatlng} finishLatlng={finishLatlng} tourTime={tourTime} />
+                  <TourList
+                    tour={tour}
+                    startLatlng={startLatlng}
+                    finishLatlng={finishLatlng}
+                    tourTime={tourTime}
+                    setSelectedTourID = {setSelectedTourID}
+                    setNext2 = {setNext2}
+                  />
                 ))
               : ""}
           </CardDeck>
         </>
       );
-    } else {
+    }
+    
+    else {
       return (
         <form>
-          {testerFunction()}
           <div className="form-group">
             <center>
               <br />
