@@ -20,6 +20,7 @@ import Settings from "./Settings";
 import Tours from "./Tours";
 import TourRequest from "./TourRequest";
 import Vehicles from "./Vehicles";
+import ViewRequests from "./ViewRequests"
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
                 <PrivateRoute path="/TourRequest" component={TourRequest} />
                 <PrivateRoute path="/Tours" component={Tours} />
 
+                <PrivateRoute path="/ViewRequests" component={ViewRequests} />
 
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />
