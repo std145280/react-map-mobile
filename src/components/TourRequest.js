@@ -181,7 +181,15 @@ export default function TourRequest(uuid) {
   };
 
   const tempRentRequest = () => {
-    var tempRentRef = firebase.database().ref("tempRentRequest");
+    setNext1(true);
+  };
+
+  var carTitle;
+  var tourTitle;
+  var carCost;
+
+  const rentRequest = () => {
+    var rentReqRef = firebase.database().ref("rentRequest");
 
     var rentRequest = {
       availableTime: parseInt(tourTime),
@@ -189,8 +197,18 @@ export default function TourRequest(uuid) {
       startGeoLong: startLatlng.lng,
       finishGeoLat: finishLatlng.lat,
       finishGeoLong: finishLatlng.lng,
+
+      startLocationName: startLocation,
+      finishLocationName: finishLocation,
+
+      selectedCarID: selectedCarID,
+      selectedTourID: selectedTourID,
+      selectedCarTitle: carTitle,
+      selectedTourTitle: tourTitle,
+
+      isAccepted: false,
     };
-    setNext1(true);
+    rentReqRef.push();
   };
 
   const diplayAddOrDeleteButton = (el) => {
@@ -248,11 +266,24 @@ export default function TourRequest(uuid) {
     ],
   });
 
+
+  const [isFinishOpen, setIsFinishOpen] = useState(false);
+  const togglePopupFinishMsg = (e) => {
+    e.preventDefault();
+    setIsFinishOpen(!isFinishOpen);
+  };
+
+  const sentRequest = () => {
+    
+  }
+
+
   const testerFunction = () => {
     setStartLatlng([37.99869678317832, 23.656674973851633]);
     setFinishLatlng([37.975128641985066, 23.826645460073326]);
     setTourTime(300);
-
+    setStartLocation("ATHENS START");
+    setFinishLocation("ATHENS FINISH");
     setHasFinish(true);
     setHasStart(true);
     setHasTime(true);
@@ -274,57 +305,151 @@ export default function TourRequest(uuid) {
     setNext3(false);
   };
 
-
-
   const [selectedTourID, setSelectedTourID] = useState([]);
   const [selectedCarID, setSelectedCarID] = useState([]);
 
   const [next2, setNext2] = useState(false);
   const [next3, setNext3] = useState(false);
 
+  const [totalTimeForTour, setTotalTimeForTour] = useState([]);
 
-  
+  const toggleSubmitRequest = () => {
+    tempRentRequest();
+  };
+
+  var tourCost;
+  var totalCost;
+  const selectedItemDisplay = () => {
+    for (let i = 0; i < TourList.length; i++) {
+      if (tourList[i].id === selectedTourID) {
+        tourTitle = tourList[i].title;
+        tourCost = parseInt(tourList[i].tourCost);
+      }
+    }
+    for (let i = 0; i < vehicleList.length; i++) {
+      if (vehicleList[i].id === selectedCarID) {
+        carTitle = vehicleList[i].title;
+        carCost = (
+          parseFloat(vehicleList[i].cph) *
+          (totalTimeForTour / 60)
+        ).toFixed(2);
+      }
+    }
+    totalCost = (parseFloat(carCost) + parseFloat(tourCost)).toFixed(2);
+    return (
+      <>
+        <div>
+          <h4>
+            <b>Tour: </b>
+            {tourTitle}
+          </h4>
+        </div>
+        <div>
+          <h4>
+            <b>Vehicle: </b>
+            {carTitle}
+          </h4>
+        </div>
+      </>
+    );
+  };
 
   const requestWizard = () => {
     if (hasStart && hasFinish && hasTime && next1 && next2 && next3) {
       return (
         <>
-    
           <CardDeck>
-          <center>
-            <Card className="cardAsItems" border="secondary">
-              <button
-                className="btn btn-secondary btn-lg rounded-0"
-                type="submit"
-                onClick={backToThirdSelector}
-              >
-                <i className="fas fa-chevron-left">{`   BACK`}</i>
-              </button>
-            </Card>
+            <center>
+              <Card className="cardAsItems" border="secondary">
+                <button
+                  className="btn btn-secondary btn-lg rounded-0"
+                  type="submit"
+                  onClick={backToThirdSelector}
+                >
+                  <i className="fas fa-chevron-left">{`   BACK`}</i>
+                </button>
+              </Card>
 
-            <Card className="cardAsItems" border="secondary">
+              <Card className="cardAsItems" border="secondary">
                 <Card.Header>
-                  <b></b>
+                  <h2>Tour Request Details</h2>
                 </Card.Header>
-
+                <Card.Body>
+                  {selectedItemDisplay()}
+                  <br />
+                  <h5>
+                    <b>Start Location: </b>
+                    {startLocation}
+                  </h5>
+                  <h5>
+                    <b>Finish Location: </b>
+                    {finishLocation}
+                  </h5>
+                  <br />
+                  <h4>
+                    <b>Cost</b>
+                  </h4>
+                  <h5>
+                    <b>Cost for Vehicle: {carCost}€</b>
+                  </h5>
+                  <h5>
+                    <b>Cost for Tour: {tourCost}€</b>
+                  </h5>
+                  <br />
+                  <h5>
+                    <b>Total: {totalCost}€ </b>
+                  </h5>
+                </Card.Body>
 
                 <Card.Footer>
-                  {" "}
-                  <button
-                  className="btn btn-primary btn-lg rounded-0"
-                  type="submit"
-                  onClick={toggleSubmitRequest}
-                >
-                  <i className="fas fa-map-marked-alt">{`  FINISH`}</i>
-                </button>
+        
+
                 </Card.Footer>
               </Card>
-              </center>
+              <Card className="cardAsItems" border="secondary">
+                <button
+                  className="btn btn-success btn-lg rounded-0"
+                  type="submit"
+                  onClick={tempRentRequest}
+                >
+                  {`SENT REQUEST    `}
+                  <i class="fa fa-upload" aria-hidden="true"></i>
+                </button>
+              </Card>
+            </center>
           </CardDeck>
-         
+          {isFinishOpen && (
+                    <PopupMsg
+                      content={
+                        <>
+                          <b>Question</b>
+                          <p>Are you sure you want to create this tour?</p>
+                          <center>
+                            <Link
+                              to="/Tours"
+                              className="btn btn-success btn-lg"
+                              onClick={sentRequest}
+                            >
+                              Yes{" "}
+                            </Link>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button
+                              className="btn btn-warning btn-lg"
+                              type="submit"
+                              onClick={togglePopupFinishMsg}
+                            >
+                              {" "}
+                              No{" "}
+                            </button>
+                          </center>
+                        </>
+                      }
+                    />
+                  )}
         </>
+        
       );
-    }else if (hasStart && hasFinish && hasTime && next1 && next2) {
+    } else if (hasStart && hasFinish && hasTime && next1 && next2) {
       return (
         <>
           <CardDeck>
@@ -374,6 +499,7 @@ export default function TourRequest(uuid) {
                     tourTime={tourTime}
                     setSelectedTourID={setSelectedTourID}
                     setNext2={setNext2}
+                    setTotalTimeForTour={setTotalTimeForTour}
                   />
                 ))
               : ""}
@@ -507,6 +633,7 @@ export default function TourRequest(uuid) {
               }
             />
           )}
+
 
           {isFinishMapOpen && (
             <PopupMap

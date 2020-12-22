@@ -15,6 +15,7 @@ export default function TourList({
   tourTime,
   setSelectedTourID,
   setNext2,
+  setTotalTimeForTour,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,6 +36,7 @@ export default function TourList({
   const tourSelectedHandle = () => {
     setSelectedTourID(tour.id);
     setNext2(true);
+    setTotalTimeForTour((driveTime+tour.time));
   }
 
 
