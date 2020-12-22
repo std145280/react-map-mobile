@@ -20,7 +20,10 @@ export default function TourList({ tour, startLatlng, finishLatlng }) {
     setIsOpen(!isOpen);
   };
 
+
+
   return (
+    
     <div>
       <Card className="mobileTourCard" style={{ flex: 1 }}>
         <Card.Body>

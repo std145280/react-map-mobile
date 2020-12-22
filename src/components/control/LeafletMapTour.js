@@ -10,6 +10,7 @@ import {
 import L from "leaflet";
 import { markerIcon, startIcon, finishIcon } from "./Icons";
 
+
 const height = { height: "100vh" };
 var center = { lat: 37.9838, lng: 23.7275 };
 
@@ -27,100 +28,55 @@ class LeafletMapTour extends React.Component {
   center = { lat: this.props.lonitude, lng: this.props.langitude };
 
   componentDidMount() {
-    const map = this.leafletMap.leafletElement;
+    //const map = this.leafletMap.leafletElement;
     const geocoder = L.Control.Geocoder.nominatim();
+
+    var map = L.map("map");
+
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    const makeMarkers = () => {
+      for (let i = 0; i < this.props.tour.poi.length; i++) {}
+    };
+
+    var markerArray = [];
+
+    markerArray.push([L.latLng(this.props.startLatlng)]);
+    markerArray.push([L.latLng(this.props.finishLatlng)]);
+
+    console.log("marker Array: " + markerArray);
+    console.log("marker Array: " + L.latLng(this.props.finishLatlng));
+
+    const constMarker = markerArray;
+
+    var routeControl = L.Routing.control({
+      waypoints: [
+        L.latLng(this.props.startLatlng),
+        L.latLng(this.props.finishLatlng),
+        L.latLng([this.props.tour.geoLat, this.props.tour.geoLong]),
+      ],
+    }).addTo(map);
+
+    routeControl.on("routesfound", function (e) {
+      var routes = e.routes;
+      var summary = routes[0].summary;
+      // alert time and distance in km and minutes
+      alert(
+        "Total distance is " +
+          summary.totalDistance / 1000 +
+          " km and total time is " +
+          summary.totalTime/60 +
+          " minutes"
+      );
+    });
   }
 
-  addMarker = (e) => {
-    for (let i = 0; i < this.props.tour.poi.length; i++) {
-      var marker = L.marker([
-        this.props.tour.poi[i].geoLat,
-        this.props.tour.poi[i].geoLng,
-      ]).addTo(this.refs.map);
-    }
-  };
-
-  addMarker = (e) => {
-    const { markers } = this.state;
-    markers.push(e.latlng);
-    this.setState({ markers });
-  };
-
   render() {
-    {
-      center = { lat: this.props.tour.geoLat, lng: this.props.tour.geoLong };
-    }
-    {
-      console.log(this.props.tour);
-    }
-    return (
-      <Map
-        style={height}
-        center={center}
-        zoom={10}
-        ref={(m) => {
-          this.leafletMap = m;
-        }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Marker
-          position={this.props.startLatlng}
-          icon={startIcon}
-        >
-          <Popup>
-            <span>
-              <b>START</b>
-            </span>
-          </Popup>
-        </Marker>
-
-        <Marker
-          position={this.props.finishLatlng}
-          icon={finishIcon}
-        >
-          <Popup>
-            <span>
-              <b>FINISH</b>
-            </span>
-          </Popup>
-        </Marker>
-
-        {this.props.tour.poi
-          ? this.props.tour.poi.map(
-              ({
-                city,
-                descForCustomer,
-                descForGuide,
-                name,
-                geoLat,
-                geoLng,
-                imageUrl,
-              }) => {
-                return (
-                  <Marker
-                    key={city}
-                    position={[geoLat, geoLng]}
-                    icon={markerIcon}
-                  >
-                    <Popup>
-                      <span>
-                        <img className="w-100 h-100" src={imageUrl[0].url} />
-                        <b>
-                          {name}: {descForCustomer}{" "}
-                        </b>
-                      </span>
-                    </Popup>
-                  </Marker>
-                );
-              }
-            )
-          : ""}
-      </Map>
-    );
+    return <div id="map">L.map('leafletmap')</div>;
   }
 }
 
-export default { LeafletMapTour, geoLatlng, locationString };
+export default { LeafletMapTour };

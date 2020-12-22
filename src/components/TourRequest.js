@@ -403,7 +403,7 @@ export default function TourRequest(uuid) {
           <CardDeck>
             {tourList
               ? tourList.map((tour, index) => (
-                  <TourList tour={tour} startLatlng={startLatlng} finishLatlng={finishLatlng} />
+                  <TourList tour={tour} startLatlng={startLatlng} finishLatlng={finishLatlng} tourTime={tourTime} />
                 ))
               : ""}
           </CardDeck>

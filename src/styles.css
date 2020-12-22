@@ -135,6 +135,20 @@
   border-radius: 0;
 }
 
+#map {
+  height: 100vh;
+}
+
+.leaflet-top {
+  height: 0;
+  width: 0;
+}
+
+.leaflet-right {
+  height: 0;
+  width: 0;
+}
+
 body {
   width: 95vw;
   height: 60vh;
