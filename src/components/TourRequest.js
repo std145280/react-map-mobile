@@ -227,11 +227,6 @@ export default function TourRequest(uuid) {
     return (degree * Math.PI) / 180;
   };
 
-  /*const [waypoints[], setStartLatlng] = useState({ latitude: 0, longitude: 0 });
-  const setStartLocationLatlng = (newLatlng) => {
-    setStartLatlng(newLatlng);
-    setHasStart(true);
-  };*/
 
   var routeControl = L.Routing.control({
     waypoints: [
@@ -240,155 +235,11 @@ export default function TourRequest(uuid) {
     ],
   });
 
-  /////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////
-
-  const displayCard = () => {
-    return (
-      <CardDeck>{tourList ? tourList.map((el) => oneCard(el)) : ""}</CardDeck>
-    );
-  };
-
-  const oneCard = (el) => {
-    return (
-      <>
-        <Card className="mobileTourCard" style={{ flex: 1 }}>
-          <Card.Body>
-            <div key={el.id}>
-              <Card.Title>
-                <center>
-                  <h4>{`${el.title}`}</h4>
-                </center>
-              </Card.Title>
-              <Carousel>
-                {el.imageUrl
-                  ? el.imageUrl.map(({ id, url }) => {
-                      return (
-                        <Carousel.Item interval={500}>
-                          <div key={id}>
-                            <img
-                              className="d-block w-100"
-                              src={url}
-                              alt=""
-                              width={320}
-                              height={225}
-                            />
-                          </div>
-                        </Carousel.Item>
-                      );
-                    })
-                  : ""}
-                {/* //>>>>>>>>>>></Carousel>EXTRA CAROUSEL ITEMS*/}
-                {el.poi
-                  ? el.poi.map(
-                      ({
-                        city,
-                        decription,
-                        geoLat,
-                        geoLng,
-                        id,
-                        imageUrl,
-                        name,
-                        ticketCost,
-                        time,
-                        type,
-                      }) => {
-                        return (
-                          <Carousel.Item interval={500}>
-                            <div key={imageUrl[0].id}>
-                              <img
-                                className="d-block w-100"
-                                src={imageUrl[0].url}
-                                alt=""
-                                width={320}
-                                height={225}
-                              />
-                            </div>
-                            <Carousel.Caption>
-                              <p className="borderText">{name}</p>
-                            </Carousel.Caption>
-                          </Carousel.Item>
-                        );
-                      }
-                    )
-                  : ""}
-                {/*} /<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */}
-              </Carousel>
-              <br />
-              {el.poi
-                ? el.poi.map(
-                    ({
-                      city,
-                      decription,
-                      geoLat,
-                      geoLng,
-                      id,
-                      imageUrl,
-                      name,
-                      ticketCost,
-                      time,
-                      type,
-                    }) => {}
-                  )
-                : ""}
-              {` ${el.city}`} <br />
-              {` ${el.tourCost}`} <br />
-              {`  decription: ${el.decription}`} <br />
-              {`  location: ${el.location}`} <br />
-            </div>
-          </Card.Body>
-          <Card.Footer>
-            <button
-              className="btn btn-warning btn-lg"
-              type="submit"
-              onClick={togglePopupMsg}
-            >
-              {" "}
-              SELECT{" "}
-            </button>
-
-            <button
-              className="btn btn-warning btn-lg"
-              type="submit"
-              onClick={togglePopupMsg}
-            >
-              {" "}
-              MORE{" "}
-            </button>
-          </Card.Footer>
-        </Card>
-
-        {isOpen && (
-          <PopupMsg
-            content={
-              <>
-                <b>Question</b>
-                <p>Are you sure you want to delete this tour?</p>
-                <center>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button
-                    className="btn btn-warning btn-lg"
-                    type="submit"
-                    onClick={togglePopupMsg}
-                  >
-                    {" "}
-                    No{" "}
-                  </button>
-                </center>
-              </>
-            }
-          />
-        )}
-      </>
-    );
-  };
-
-  //////////////////////////////////////////////////////////////////////
 
   const testerFunction = () => {
     setStartLatlng([37.99869678317832, 23.656674973851633]);
     setFinishLatlng([37.975128641985066, 23.826645460073326]);
-    setTourTime(250);
+    setTourTime(300);
 
     setHasFinish(true);
     setHasStart(true);
