@@ -6,7 +6,7 @@ import firebase from "../../firebase";
 import Map from "./LeafletMapTour";
 import PopupMap from "./PopupMap";
 
-export default function TourList({ tour }) {
+export default function TourList({ tour, startLatlng, finishLatlng }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
@@ -138,7 +138,7 @@ export default function TourList({ tour }) {
               </center>
               <div>
                 {console.log(tour.poi)}
-                <Map.LeafletMapTour tour={tour} />
+                <Map.LeafletMapTour tour={tour} startLatlng={startLatlng} finishLatlng={finishLatlng}/>
               </div>
               <br />
               <center>

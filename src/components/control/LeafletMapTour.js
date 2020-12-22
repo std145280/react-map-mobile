@@ -8,7 +8,7 @@ import {
   ScaleControl,
 } from "react-leaflet";
 import L from "leaflet";
-import { markerIcon } from "./Icons";
+import { markerIcon, startIcon, finishIcon } from "./Icons";
 
 const height = { height: "100vh" };
 var center = { lat: 37.9838, lng: 23.7275 };
@@ -66,6 +66,27 @@ class LeafletMapTour extends React.Component {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
+        <Marker
+          position={this.props.startLatlng}
+          icon={startIcon}
+        >
+          <Popup>
+            <span>
+              <b>START</b>
+            </span>
+          </Popup>
+        </Marker>
+
+        <Marker
+          position={this.props.finishLatlng}
+          icon={finishIcon}
+        >
+          <Popup>
+            <span>
+              <b>FINISH</b>
+            </span>
+          </Popup>
+        </Marker>
 
         {this.props.tour.poi
           ? this.props.tour.poi.map(

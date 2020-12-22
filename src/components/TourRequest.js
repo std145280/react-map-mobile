@@ -386,8 +386,8 @@ export default function TourRequest(uuid) {
   //////////////////////////////////////////////////////////////////////
 
   const testerFunction = () => {
-    setStartLatlng(37.99869678317832, 23.656674973851633);
-    setFinishLatlng(37.975128641985066, 23.826645460073326);
+    setStartLatlng([37.99869678317832, 23.656674973851633]);
+    setFinishLatlng([37.975128641985066, 23.826645460073326]);
     setTourTime(250);
 
     setHasFinish(true);
@@ -403,7 +403,7 @@ export default function TourRequest(uuid) {
           <CardDeck>
             {tourList
               ? tourList.map((tour, index) => (
-                  <TourList tour={tour} key={index} />
+                  <TourList tour={tour} startLatlng={startLatlng} finishLatlng={finishLatlng} />
                 ))
               : ""}
           </CardDeck>
