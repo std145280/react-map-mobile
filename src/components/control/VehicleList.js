@@ -3,7 +3,7 @@ import PopupMsg from "./PopupMsg";
 import { Carousel, Card, Table } from "react-bootstrap";
 import firebase from "../../firebase";
 
-export default function VehicleList({ vehicle }) {
+export default function VehicleList({ vehicle, setSelectedCar, setNext3, startLatlng }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
@@ -23,135 +23,185 @@ export default function VehicleList({ vehicle }) {
     });
   };
 
-  return (
-    <div>
-      <h4 className={vehicle.complete ? "availableForRent" : ""}></h4>
+   ////////Calculates distance between two points///////////
+  ////////////and return distance in meters////////////////
+  const getDistance = (origin, destination) => {
+    var lon1 = toRadian(origin[1]),
+      lat1 = toRadian(origin[0]),
+      lon2 = toRadian(destination[1]),
+      lat2 = toRadian(destination[0]);
+    var deltaLat = lat2 - lat1;
+    var deltaLon = lon2 - lon1;
 
-      <Card className="cardAsItems" style={{ flex: 1 }}>
-        <Card.Body>
-          <Table striped bordered hover>
-            <thead></thead>
-            <tbody>
-              <tr>
-                <td colSpan="2">
-                  <b>
+    var a =
+      Math.pow(Math.sin(deltaLat / 2), 2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2);
+    var c = 2 * Math.asin(Math.sqrt(a));
+    var EARTH_RADIUS = 6371;
+    return c * EARTH_RADIUS * 1000;
+  };
+
+  const toRadian = (degree) => {
+    return (degree * Math.PI) / 180;
+  };
+  /////////////////////////////////////////////////////////////
+
+
+
+  const cardFilter = () => {
+
+    var distance = getDistance(
+      [startLatlng[0], startLatlng[1]],
+      [vehicle.geoLat, vehicle.geoLong]
+    );
+
+    if (vehicle.availableForRent && distance<5000000 )
+
+    return (
+      <div>
+        <h4 className={vehicle.complete ? "availableForRent" : ""}></h4>
+  
+  
+        <Card className="cardAsItems" style={{ flex: 1 }}>
+          <Card.Body>
+            <Table striped bordered hover>
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <td colSpan="2">
+                    <b>
+                      <center>
+                        <Carousel>
+                          {vehicle.imageUrl
+                            ? vehicle.imageUrl.map(({ id, url }) => {
+                                return (
+                                  <Carousel.Item interval={500}>
+                                    <div key={id}>
+                                      <img
+                                        className="d-block w-100"
+                                        src={url}
+                                        alt=""
+                                        width={320}
+                                        height={225}
+                                      />
+                                    </div>
+                                  </Carousel.Item>
+                                );
+                              })
+                            : ""}
+                        </Carousel>
+                      </center>
+                    </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="2">
+                    <Card.Title>
+                      <center>
+                        <h4>{vehicle.title}</h4>
+                      </center>
+                    </Card.Title>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Type:</b> {vehicle.type}
+                  </td>
+                  <td>
+                    <b>Passengers #:</b> {vehicle.passengers}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Fuel:</b> {vehicle.fuel}
+                  </td>
+                  <td>
+                    <b>Year:</b> {vehicle.year}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Cost/h:</b> {vehicle.cph}
+                  </td>
+                  <td>
+                    <b>WiFi:</b> {vehicle.wiFi}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="2">
+                    <b>Location:</b> {vehicle.location}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="2">
                     <center>
-                      <Carousel>
-                        {vehicle.imageUrl
-                          ? vehicle.imageUrl.map(({ id, url }) => {
-                              return (
-                                <Carousel.Item interval={500}>
-                                  <div key={id}>
-                                    <img
-                                      className="d-block w-100"
-                                      src={url}
-                                      alt=""
-                                      width={320}
-                                      height={225}
-                                    />
-                                  </div>
-                                </Carousel.Item>
-                              );
-                            })
-                          : ""}
-                      </Carousel>
+                      {vehicle.availableForRent ? (
+                        <b style={{ color: "green" }}>Available</b>
+                      ) : (
+                        <b style={{ color: "red" }}>Not available</b>
+                      )}{" "}
                     </center>
-                  </b>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="2">
-                  <Card.Title>
-                    <center>
-                      <h4>{vehicle.title}</h4>
-                    </center>
-                  </Card.Title>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Type:</b> {vehicle.type}
-                </td>
-                <td>
-                  <b>Passengers #:</b> {vehicle.passengers}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Fuel:</b> {vehicle.fuel}
-                </td>
-                <td>
-                  <b>Year:</b> {vehicle.year}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Cost/h:</b> {vehicle.cph}
-                </td>
-                <td>
-                  <b>WiFi:</b> {vehicle.wiFi}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="2">
-                  <b>Location:</b> {vehicle.location}
-                </td>
-              </tr>
-              <tr>
-                <td colSpan="2">
-                  <center>
-                    {vehicle.availableForRent ? (
-                      <b style={{ color: "green" }}>Available</b>
-                    ) : (
-                      <b style={{ color: "red" }}>Not available</b>
-                    )}{" "}
-                  </center>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </Card.Body>
-        <Card.Footer>
-          <center>
-            <button className="btn btn-danger" onClick={togglePopupMsg}>
-              <i className="fa fa-trash-alt"></i>
-            </button>
-            <button className="btn btn-dark" onClick={changeAvailability}>
-              <b>toggle availability</b>
-            </button>
-          </center>
-        </Card.Footer>
-      </Card>
-      {isOpen && (
-        <PopupMsg
-          content={
-            <>
-              <b>Question</b>
-              <p>Are you sure you want to delete this vehicle?</p>
-              <center>
-                <button
-                  className="btn btn-danger btn-lg"
-                  type="submit"
-                  onClick={deleteVehicle}
-                >
-                  {" "}
-                  Yes{" "}
-                </button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button
-                  className="btn btn-warning btn-lg"
-                  type="submit"
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </Card.Body>
+          <Card.Footer>
+            <center>
+            <button
+                  className="btn btn-secondary btn-lg"
                   onClick={togglePopupMsg}
                 >
-                  {" "}
-                  No{" "}
+                  <i class="fas fa-map-marked-alt"></i>
                 </button>
-              </center>
-            </>
-          }
-          handleClose={togglePopupMsg}
-        />
-      )}
-    </div>
-  );
-}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <button
+                  className="btn btn-success btn-lg"
+                  onClick={tourSelectedHandle}
+                >
+                 <i class="fas fa-arrow-right"></i>
+                </button>
+            </center>
+          </Card.Footer>
+        </Card>
+        {isOpen && (
+          <PopupMsg
+            content={
+              <>
+                <b>Question</b>
+                <p>Are you sure you want to delete this vehicle?</p>
+                <center>
+                  <button
+                    className="btn btn-danger btn-lg"
+                    type="submit"
+                    onClick={deleteVehicle}
+                  >
+                    {" "}
+                    Yes{" "}
+                  </button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button
+                    className="btn btn-warning btn-lg"
+                    type="submit"
+                    onClick={togglePopupMsg}
+                  >
+                    {" "}
+                    No{" "}
+                  </button>
+                </center>
+              </>
+            }
+            handleClose={togglePopupMsg}
+          />
+        )}
+      </div>
+    );
+  }
+
+return(
+<>
+{cardFilter()}
+</>
+
+);}

@@ -33,7 +33,7 @@ export default function TourRequest(uuid) {
   }, []);
 
   const [vehicleList, setVehicleList] = useState();
-  
+
   useEffect(() => {
     const vehicleRef = firebase.database().ref("vehicle");
     vehicleRef.on("value", (snapshot) => {
@@ -257,6 +257,7 @@ export default function TourRequest(uuid) {
     setHasStart(true);
     setHasTime(true);
     setNext1(true);
+
   };
 
   const backToFirstSelector = (e) => {
@@ -264,19 +265,36 @@ export default function TourRequest(uuid) {
     setNext1(false);
   };
 
-  const [selectedTourID, setSelectedTourID] = useState([]);
+  const backToSecondSelector = (e) => {
+    e.preventDefault();
+    setNext2(false);
+  };
 
+  const [selectedTourID, setSelectedTourID] = useState([]);
+  const [selectedCar, setSelectedCar] = useState([]);
 
   const [next2, setNext2] = useState(false);
+  const [next3, setNext3] = useState(false);
 
   const requestWizard = () => {
     if (hasStart && hasFinish && hasTime && next1 && next2) {
       return (<>
       
       <CardDeck>
+      <Card className="cardAsItems" border="secondary">
+              <button
+                className="btn btn-secondary btn-lg rounded-0"
+                type="submit"
+                onClick={backToSecondSelector}
+              >
+                <i className="fas fa-chevron-left">{`   BACK`}</i>
+              </button>
+            </Card>
+
+
           {vehicleList
             ? vehicleList.map((vehicle, index) => (
-                <VehicleList vehicle={vehicle} key={index} />
+                <VehicleList vehicle={vehicle} key={index} setSelectedCar={setSelectedCar} setNext3={setNext3} startLatlng={startLatlng}/>
               ))
             : ""}
         </CardDeck>
@@ -316,6 +334,8 @@ export default function TourRequest(uuid) {
     else {
       return (
         <form>
+{testerFunction()}
+
           <div className="form-group">
             <center>
               <br />
