@@ -6,7 +6,12 @@ import firebase from "../../firebase";
 import Map from "./LeafletMapTour";
 import PopupMap from "./PopupMap";
 
-export default function TourList({ tour, startLatlng, finishLatlng }) {
+export default function TourList({
+  tour,
+  startLatlng,
+  finishLatlng,
+  tourTime,
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
@@ -20,10 +25,7 @@ export default function TourList({ tour, startLatlng, finishLatlng }) {
     setIsOpen(!isOpen);
   };
 
-
-
   return (
-    
     <div>
       <Card className="mobileTourCard" style={{ flex: 1 }}>
         <Card.Body>
@@ -141,7 +143,11 @@ export default function TourList({ tour, startLatlng, finishLatlng }) {
               </center>
               <div>
                 {console.log(tour.poi)}
-                <Map.LeafletMapTour tour={tour} startLatlng={startLatlng} finishLatlng={finishLatlng}/>
+                <Map.LeafletMapTour
+                  tour={tour}
+                  startLatlng={startLatlng}
+                  finishLatlng={finishLatlng}
+                />
               </div>
               <br />
               <center>

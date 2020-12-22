@@ -8,8 +8,7 @@ import {
   ScaleControl,
 } from "react-leaflet";
 import L from "leaflet";
-import { markerIcon, startIcon, finishIcon } from "./Icons";
-
+import { markerIcon, startIcon, finishIcon, carMarkerIcon } from "./Icons";
 
 const height = { height: "100vh" };
 var center = { lat: 37.9838, lng: 23.7275 };
@@ -20,9 +19,7 @@ var locationString;
 class LeafletMapTour extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      markers: [[51.505, -0.09]],
-    };
+    this.state = {};
   }
 
   center = { lat: this.props.lonitude, lng: this.props.langitude };
@@ -31,34 +28,50 @@ class LeafletMapTour extends React.Component {
     //const map = this.leafletMap.leafletElement;
     const geocoder = L.Control.Geocoder.nominatim();
 
-    var map = L.map("map");
+    var map = L.map("map", {
+      zoom: 10,
+    });
+    var markerArray = [];
+
+    markerArray.push(L.latLng(this.props.startLatlng));
+
+
+    for (let i = 0; i < this.props.tour.poi.length; i++) {
+      markerArray.push(
+        L.latLng(this.props.tour.poi[i].geoLat, this.props.tour.poi[i].geoLng)
+      );
+    }
+
+    markerArray.push(L.latLng(this.props.finishLatlng));
+
+    map.setView([this.props.tour.geoLat, this.props.tour.geoLong], 10);
 
     L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
-    const makeMarkers = () => {
-      for (let i = 0; i < this.props.tour.poi.length; i++) {}
-    };
-
-    var markerArray = [];
-
-    markerArray.push([L.latLng(this.props.startLatlng)]);
-    markerArray.push([L.latLng(this.props.finishLatlng)]);
-
-    console.log("marker Array: " + markerArray);
-    console.log("marker Array: " + L.latLng(this.props.finishLatlng));
-
-    const constMarker = markerArray;
-
     var routeControl = L.Routing.control({
-      waypoints: [
-        L.latLng(this.props.startLatlng),
-        L.latLng(this.props.finishLatlng),
-        L.latLng([this.props.tour.geoLat, this.props.tour.geoLong]),
-      ],
+      waypoints: markerArray,
+
+      createMarker: function (i, wp, nWps) {
+        if (i === 0 ) {
+          return L.marker(wp.latLng, {
+            icon: startIcon,
+            draggable: true,
+          });
+        } else if( i === nWps - 1) {          return L.marker(wp.latLng, {
+          icon: finishIcon,
+        });}
+        else {
+          return L.marker(wp.latLng, {
+            icon: markerIcon,
+          });
+        }
+      },
     }).addTo(map);
+
+    routeControl.route();
 
     routeControl.on("routesfound", function (e) {
       var routes = e.routes;
@@ -68,14 +81,19 @@ class LeafletMapTour extends React.Component {
         "Total distance is " +
           summary.totalDistance / 1000 +
           " km and total time is " +
-          summary.totalTime/60 +
+          summary.totalTime / 60 +
           " minutes"
       );
+      //  map.removeControl();
     });
   }
 
   render() {
-    return <div id="map">L.map('leafletmap')</div>;
+    return (
+      <>
+        <h3>hi</h3>
+      </>
+    );
   }
 }
 
