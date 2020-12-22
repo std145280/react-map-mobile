@@ -5,6 +5,7 @@ import NavigationBar from "./NavigationBar";
 import firebase from "../firebase";
 import PopupMsg from "./control/PopupMsg";
 import PopupMap from "./control/PopupMap";
+import { useAuth } from "../contexts/AuthContext"
 
 import Map from "./control/LeafletMap";
 import "leaflet/dist/leaflet.css";
@@ -21,6 +22,9 @@ import VehicleList from "./control/VehicleList";
 import TourList from "./control/TourList";
 
 export default function TourRequest(uuid) {
+
+  const { currentUser, updatePassword, updateEmail } = useAuth()
+
   useEffect(() => {
     const rentRef = firebase.database().ref("tour");
     rentRef.on("value", (snapshot) => {
@@ -191,6 +195,7 @@ export default function TourRequest(uuid) {
     var rentReqRef = firebase.database().ref("rentRequest");
 
     var rentRequest = {
+      user : currentUser.email,
       availableTime: (parseInt(tourTime)),
       startGeoLat: startLatlng.lat,
       startGeoLong: startLatlng.lng,
