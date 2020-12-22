@@ -257,7 +257,6 @@ export default function TourRequest(uuid) {
     setHasStart(true);
     setHasTime(true);
     setNext1(true);
-
   };
 
   const backToFirstSelector = (e) => {
@@ -270,18 +269,66 @@ export default function TourRequest(uuid) {
     setNext2(false);
   };
 
+  const backToThirdSelector = (e) => {
+    e.preventDefault();
+    setNext3(false);
+  };
+
+
+
   const [selectedTourID, setSelectedTourID] = useState([]);
-  const [selectedCar, setSelectedCar] = useState([]);
+  const [selectedCarID, setSelectedCarID] = useState([]);
 
   const [next2, setNext2] = useState(false);
   const [next3, setNext3] = useState(false);
 
+
+  
+
   const requestWizard = () => {
-    if (hasStart && hasFinish && hasTime && next1 && next2) {
-      return (<>
-      
-      <CardDeck>
-      <Card className="cardAsItems" border="secondary">
+    if (hasStart && hasFinish && hasTime && next1 && next2 && next3) {
+      return (
+        <>
+    
+          <CardDeck>
+          <center>
+            <Card className="cardAsItems" border="secondary">
+              <button
+                className="btn btn-secondary btn-lg rounded-0"
+                type="submit"
+                onClick={backToThirdSelector}
+              >
+                <i className="fas fa-chevron-left">{`   BACK`}</i>
+              </button>
+            </Card>
+
+            <Card className="cardAsItems" border="secondary">
+                <Card.Header>
+                  <b></b>
+                </Card.Header>
+
+
+                <Card.Footer>
+                  {" "}
+                  <button
+                  className="btn btn-primary btn-lg rounded-0"
+                  type="submit"
+                  onClick={toggleSubmitRequest}
+                >
+                  <i className="fas fa-map-marked-alt">{`  FINISH`}</i>
+                </button>
+                </Card.Footer>
+              </Card>
+              </center>
+          </CardDeck>
+         
+        </>
+      );
+    }else if (hasStart && hasFinish && hasTime && next1 && next2) {
+      return (
+        <>
+          <CardDeck>
+            <Card className="cardAsItems" border="secondary">
               <button
                 className="btn btn-secondary btn-lg rounded-0"
                 type="submit"
@@ -291,17 +338,21 @@ export default function TourRequest(uuid) {
               </button>
             </Card>
 
-
-          {vehicleList
-            ? vehicleList.map((vehicle, index) => (
-                <VehicleList vehicle={vehicle} key={index} setSelectedCar={setSelectedCar} setNext3={setNext3} startLatlng={startLatlng}/>
-              ))
-            : ""}
-        </CardDeck>
-       </>);
-    }
-    
-    else if (hasStart && hasFinish && hasTime && next1) {
+            {vehicleList
+              ? vehicleList.map((vehicle, index) => (
+                  <VehicleList
+                    vehicle={vehicle}
+                    key={index}
+                    setSelectedCarID={setSelectedCarID}
+                    setNext3={setNext3}
+                    startLatlng={startLatlng}
+                  />
+                ))
+              : ""}
+          </CardDeck>
+        </>
+      );
+    } else if (hasStart && hasFinish && hasTime && next1) {
       return (
         <>
           <CardDeck>
@@ -321,20 +372,18 @@ export default function TourRequest(uuid) {
                     startLatlng={startLatlng}
                     finishLatlng={finishLatlng}
                     tourTime={tourTime}
-                    setSelectedTourID = {setSelectedTourID}
-                    setNext2 = {setNext2}
+                    setSelectedTourID={setSelectedTourID}
+                    setNext2={setNext2}
                   />
                 ))
               : ""}
           </CardDeck>
         </>
       );
-    }
-    
-    else {
+    } else {
       return (
         <form>
-{testerFunction()}
+          {testerFunction()}
 
           <div className="form-group">
             <center>

@@ -7,7 +7,7 @@ import Map from "./LeafletMap";
 
 export default function VehicleList({
   vehicle,
-  setSelectedCar,
+  setSelectedCarID,
   setNext3,
   startLatlng,
 }) {
@@ -18,12 +18,15 @@ export default function VehicleList({
     setIsOpen(!isOpen);
   };
 
+  const vehicleSelectedHandle = () => {
+    setSelectedCarID(vehicle.id);
+    setNext3(true);
+  }
 
 
-  var vehicleLatlng = [vehicle.geoLat,vehicle.geoLong];
 
 
-
+  var vehicleLatlng = [vehicle.geoLat, vehicle.geoLong];
 
   ////////Calculates distance between two points///////////
   ////////////and return distance in meters////////////////
@@ -130,15 +133,7 @@ export default function VehicleList({
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan="2">
-                      <center>
-                        {vehicle.availableForRent ? (
-                          <b style={{ color: "green" }}>Available</b>
-                        ) : (
-                          <b style={{ color: "red" }}>Not available</b>
-                        )}{" "}
-                      </center>
-                    </td>
+                  
                   </tr>
                 </tbody>
               </Table>
@@ -150,14 +145,14 @@ export default function VehicleList({
                   onClick={togglePopupMsg}
                 >
                   <i class="fas fa-map-marked-alt"></i>
-               </button>
-            {/*}     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button
                   className="btn btn-success btn-lg"
-                  onClick={tourSelectedHandle}
+                  onClick={vehicleSelectedHandle}
                 >
                   <i class="fas fa-arrow-right"></i>
-                        </button>*/}
+                </button>
               </center>
             </Card.Footer>
           </Card>
@@ -169,9 +164,7 @@ export default function VehicleList({
                     <h3> Cars </h3>
                   </center>
                   <div>
-                
                     <Map.LeafletMap
-          
                       startLatlng={startLatlng}
                       vehicleLatlng={vehicleLatlng}
                     />
@@ -192,7 +185,6 @@ export default function VehicleList({
               }
             />
           )}
-          
         </div>
       );
   };
