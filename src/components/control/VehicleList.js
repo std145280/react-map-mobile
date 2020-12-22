@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import PopupMsg from "./PopupMsg";
+import PopupMap from "./PopupMap";
 import { Carousel, Card, Table } from "react-bootstrap";
 import firebase from "../../firebase";
+import Map from "./LeafletMap";
 
-export default function VehicleList({ vehicle, setSelectedCar, setNext3, startLatlng }) {
+export default function VehicleList({
+  vehicle,
+  setSelectedCar,
+  setNext3,
+  startLatlng,
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
@@ -11,19 +18,14 @@ export default function VehicleList({ vehicle, setSelectedCar, setNext3, startLa
     setIsOpen(!isOpen);
   };
 
-  const deleteVehicle = () => {
-    const vehicleRef = firebase.database().ref("vehicle").child(vehicle.id);
-    vehicleRef.remove();
-    setIsOpen(!isOpen);
-  };
-  const changeAvailability = () => {
-    const vehicleRef = firebase.database().ref("vehicle").child(vehicle.id);
-    vehicleRef.update({
-      availableForRent: !vehicle.availableForRent,
-    });
-  };
 
-   ////////Calculates distance between two points///////////
+
+  var vehicleLatlng = [vehicle.geoLat,vehicle.geoLong];
+
+
+
+
+  ////////Calculates distance between two points///////////
   ////////////and return distance in meters////////////////
   const getDistance = (origin, destination) => {
     var lon1 = toRadian(origin[1]),
@@ -46,162 +48,154 @@ export default function VehicleList({ vehicle, setSelectedCar, setNext3, startLa
   };
   /////////////////////////////////////////////////////////////
 
-
-
   const cardFilter = () => {
-
     var distance = getDistance(
       [startLatlng[0], startLatlng[1]],
       [vehicle.geoLat, vehicle.geoLong]
     );
 
-    if (vehicle.availableForRent && distance<5000000 )
+    if (vehicle.availableForRent && distance < 50000)
+      return (
+        <div>
+          <h4 className={vehicle.complete ? "availableForRent" : ""}></h4>
 
-    return (
-      <div>
-        <h4 className={vehicle.complete ? "availableForRent" : ""}></h4>
-  
-  
-        <Card className="cardAsItems" style={{ flex: 1 }}>
-          <Card.Body>
-            <Table striped bordered hover>
-              <thead></thead>
-              <tbody>
-                <tr>
-                  <td colSpan="2">
-                    <b>
+          <Card className="cardAsItems" style={{ flex: 1 }}>
+            <Card.Body>
+              <Table striped bordered hover>
+                <thead></thead>
+                <tbody>
+                  <tr>
+                    <td colSpan="2">
+                      <b>
+                        <center>
+                          <Carousel>
+                            {vehicle.imageUrl
+                              ? vehicle.imageUrl.map(({ id, url }) => {
+                                  return (
+                                    <Carousel.Item interval={500}>
+                                      <div key={id}>
+                                        <img
+                                          className="d-block w-100"
+                                          src={url}
+                                          alt=""
+                                          width={320}
+                                          height={225}
+                                        />
+                                      </div>
+                                    </Carousel.Item>
+                                  );
+                                })
+                              : ""}
+                          </Carousel>
+                        </center>
+                      </b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="2">
+                      <Card.Title>
+                        <center>
+                          <h4>{vehicle.title}</h4>
+                        </center>
+                      </Card.Title>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <b>Type:</b> {vehicle.type}
+                    </td>
+                    <td>
+                      <b>Passengers #:</b> {vehicle.passengers}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <b>Fuel:</b> {vehicle.fuel}
+                    </td>
+                    <td>
+                      <b>Year:</b> {vehicle.year}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <b>Cost/h:</b> {vehicle.cph}
+                    </td>
+                    <td>
+                      <b>WiFi:</b> {vehicle.wiFi}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="2">
+                      <b>Location:</b> {vehicle.location}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="2">
                       <center>
-                        <Carousel>
-                          {vehicle.imageUrl
-                            ? vehicle.imageUrl.map(({ id, url }) => {
-                                return (
-                                  <Carousel.Item interval={500}>
-                                    <div key={id}>
-                                      <img
-                                        className="d-block w-100"
-                                        src={url}
-                                        alt=""
-                                        width={320}
-                                        height={225}
-                                      />
-                                    </div>
-                                  </Carousel.Item>
-                                );
-                              })
-                            : ""}
-                        </Carousel>
+                        {vehicle.availableForRent ? (
+                          <b style={{ color: "green" }}>Available</b>
+                        ) : (
+                          <b style={{ color: "red" }}>Not available</b>
+                        )}{" "}
                       </center>
-                    </b>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <Card.Title>
-                      <center>
-                        <h4>{vehicle.title}</h4>
-                      </center>
-                    </Card.Title>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Type:</b> {vehicle.type}
-                  </td>
-                  <td>
-                    <b>Passengers #:</b> {vehicle.passengers}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Fuel:</b> {vehicle.fuel}
-                  </td>
-                  <td>
-                    <b>Year:</b> {vehicle.year}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Cost/h:</b> {vehicle.cph}
-                  </td>
-                  <td>
-                    <b>WiFi:</b> {vehicle.wiFi}
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <b>Location:</b> {vehicle.location}
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="2">
-                    <center>
-                      {vehicle.availableForRent ? (
-                        <b style={{ color: "green" }}>Available</b>
-                      ) : (
-                        <b style={{ color: "red" }}>Not available</b>
-                      )}{" "}
-                    </center>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Card.Body>
-          <Card.Footer>
-            <center>
-            <button
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Card.Body>
+            <Card.Footer>
+              <center>
+                <button
                   className="btn btn-secondary btn-lg"
                   onClick={togglePopupMsg}
                 >
                   <i class="fas fa-map-marked-alt"></i>
-                </button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+               </button>
+            {/*}     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button
                   className="btn btn-success btn-lg"
                   onClick={tourSelectedHandle}
                 >
-                 <i class="fas fa-arrow-right"></i>
-                </button>
-            </center>
-          </Card.Footer>
-        </Card>
-        {isOpen && (
-          <PopupMsg
-            content={
-              <>
-                <b>Question</b>
-                <p>Are you sure you want to delete this vehicle?</p>
-                <center>
-                  <button
-                    className="btn btn-danger btn-lg"
-                    type="submit"
-                    onClick={deleteVehicle}
-                  >
+                  <i class="fas fa-arrow-right"></i>
+                        </button>*/}
+              </center>
+            </Card.Footer>
+          </Card>
+          {isOpen && (
+            <PopupMap
+              content={
+                <>
+                  <center>
+                    <h3> Cars </h3>
+                  </center>
+                  <div>
+                
+                    <Map.LeafletMap
+          
+                      startLatlng={startLatlng}
+                      vehicleLatlng={vehicleLatlng}
+                    />
+                  </div>
+                  <br />
+                  <center>
                     {" "}
-                    Yes{" "}
-                  </button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button
-                    className="btn btn-warning btn-lg"
-                    type="submit"
-                    onClick={togglePopupMsg}
-                  >
-                    {" "}
-                    No{" "}
-                  </button>
-                </center>
-              </>
-            }
-            handleClose={togglePopupMsg}
-          />
-        )}
-      </div>
-    );
-  }
+                    <button
+                      className="btn btn-success btn-lg"
+                      type="submit"
+                      onClick={togglePopupMsg}
+                    >
+                      {" "}
+                      Done{" "}
+                    </button>
+                  </center>
+                </>
+              }
+            />
+          )}
+          
+        </div>
+      );
+  };
 
-return(
-<>
-{cardFilter()}
-</>
-
-);}
+  return <>{cardFilter()}</>;
+}

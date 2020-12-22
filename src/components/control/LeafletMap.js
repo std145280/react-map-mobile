@@ -1,69 +1,59 @@
 import React from "react";
-import { Map, TileLayer } from "react-leaflet";
 import L from "leaflet";
-import { markerIcon } from "./Icons";
-
-const height = { height: "100vh" };
-const center = { lat: 37.9838, lng: 23.7275 };
-
-var geoLatlng;
-var locationString;
+import { markerIcon, startIcon, finishIcon, carMarkerIcon } from "./Icons";
 
 class LeafletMap extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
-  center = { lat: this.props.lonitude, lng: this.props.langitude };
-
   componentDidMount() {
-    const map = this.leafletMap.leafletElement;
     const geocoder = L.Control.Geocoder.nominatim();
-    let marker;
-    map.on("click", (e) => {
-      this.props.setLocationLatlng(e.latlng);
-      geocoder.reverse(
-        e.latlng,
-        map.options.crs.scale(map.getZoom()),
-        (results) => {
-          var r = results[0];
-          if (r) {
-            if (marker) {
-              marker
-                .setLatLng(r.center, { icon: markerIcon })
-                .setPopupContent(r.html || r.name)
-                .openPopup();
-              this.props.setLocationName(r.name);
-            } else {
-              marker = L.marker(r.center, { icon: markerIcon })
-                .bindPopup(r.name)
-                .addTo(map)
-                .openPopup();
-              this.props.setLocationName(r.name);
-            }
-          }
-        }
-      );
+    var map = L.map("map", {
+      zoom: 10,
     });
+    var markerArray = [];
+
+    markerArray.push(L.latLng(this.props.startLatlng));
+    markerArray.push(L.latLng(this.props.vehicleLatlng));
+
+    map.setView(this.props.startLatlng, 10);
+
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    var routeControl = L.Routing.control({
+      waypoints: markerArray,
+      createMarker: function (i, wp, nWps) {
+        if (i === 0) {
+          return L.marker(wp.latLng, {
+            icon: startIcon,
+            draggable: true,
+          });
+        } else if (i === nWps - 1) {
+          return L.marker(wp.latLng, {
+            icon: carMarkerIcon,
+          });
+        } else {
+          return L.marker(wp.latLng, {
+            icon: markerIcon,
+          });
+        }
+      },
+    }).addTo(map);
+    routeControl.route();
   }
 
   render() {
     return (
-      <Map
-        style={height}
-        center={center}
-        zoom={12}
-        ref={(m) => {
-          this.leafletMap = m;
-        }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-      </Map>
+      <>
+        <div id="map">L.map('leafletmap')</div>
+      </>
     );
   }
 }
 
-export default { LeafletMap, geoLatlng, locationString };
+export default { LeafletMap };
