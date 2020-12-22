@@ -16,6 +16,8 @@ export default function ViewRents() {
   const { currentUser, updatePassword, updateEmail } = useAuth();
   const [reqList, setReqList] = useState();
 
+  var requests = [];
+
   useEffect(() => {
     const rentRequest = firebase.database().ref("rentRequest");
     rentRequest.on("value", (snapshot) => {
@@ -30,10 +32,34 @@ export default function ViewRents() {
 
   const DisplayRentRequest = (reqList) => {
     for (let i in reqList) {
-      if ((currentUser.email === reqList[i].user))
-        return <h4>{currentUser.email}</h4>;
+      if (currentUser.email === reqList[i].user) {
+        requests.push(reqList[i]);
+      }
     }
   };
 
-  return <div>{DisplayRentRequest(reqList)}</div>;
+  return (
+    <>
+      <NavigationBar />
+      <div>{DisplayRentRequest(reqList)}</div>
+      <CardDeck>
+        {requests
+          ? requests.map((index) => (
+            <center>
+              <Card className="startCards" border="secondary">
+                <Card.Header>
+                  <b>Browse all available tours</b>
+                </Card.Header>
+                <Card.Body>
+                  {/*<Card.Title>Browse all available tours</Card.Title>*/}
+                  <Card.Text>We offer tour packets....</Card.Text>
+           
+                </Card.Body>
+              </Card>
+              </center>
+            ))
+          : ""}
+      </CardDeck>
+    </>
+  );
 }
