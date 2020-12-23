@@ -7,59 +7,42 @@ import firebase from "../firebase";
 import PopupMsg from "./control/PopupMsg";
 import PopupMap from "./control/PopupMap";
 import { useAuth } from "../contexts/AuthContext";
-
+import RentRequestList from "./control/RentRequestList";
 import Map from "./control/LeafletMap";
 import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
 
 export default function ViewRents() {
-  const { currentUser, updatePassword, updateEmail } = useAuth();
-  const [reqList, setReqList] = useState();
-
-  var requests = [];
+  
+  const [rentRequestList, setRentRequestList] = useState();
 
   useEffect(() => {
-    const rentRequest = firebase.database().ref("rentRequest");
-    rentRequest.on("value", (snapshot) => {
-      const reqs = snapshot.val();
-      const reqList = [];
-      for (let id in reqs) {
-        reqList.push({ id, ...reqs[id] });
+    const rentReqRef = firebase.database().ref("rentRequest");
+    rentReqRef.on("value", (snapshot) => {
+      const request = snapshot.val();
+      const rentRequestList = [];
+      for (let id in request) {
+        rentRequestList.push({ id, ...request[id] });
       }
-      setReqList(reqList);
+      setRentRequestList(rentRequestList);
     });
   }, []);
 
-  const DisplayRentRequest = (reqList) => {
-    for (let i in reqList) {
-      if (currentUser.email === reqList[i].user) {
-        requests.push(reqList[i]);
-      }
-    }
-  };
+return (
+  <>
+    <NavigationBar />
+    <div>
+      <br />
+      <b>Rent Requests</b>
 
-  return (
-    <>
-      <NavigationBar />
-      <div>{DisplayRentRequest(reqList)}</div>
       <CardDeck>
-        {requests
-          ? requests.map((index) => (
-            <center>
-              <Card className="startCards" border="secondary">
-                <Card.Header>
-                  <b>Browse all available tours</b>
-                </Card.Header>
-                <Card.Body>
-                  {/*<Card.Title>Browse all available tours</Card.Title>*/}
-                  <Card.Text>We offer tour packets....</Card.Text>
-           
-                </Card.Body>
-              </Card>
-              </center>
+        {rentRequestList
+          ? rentRequestList.map((request, index) => (
+              <RentRequestList request={request} key={index} />
             ))
           : ""}
       </CardDeck>
-    </>
-  );
+    </div>
+  </>
+);
 }

@@ -126,7 +126,9 @@
 }
 
 .cardAsItems {
-  width: 100vw;
+  
+  position: relative;
+  width: 95vw;
   border-radius: 0;
 }
 
@@ -141,8 +143,9 @@
 
 
 body {
-  width: 95vw;
+  padding-left: 3vw;
+  width: 94vw;
   height: 60vh;
   padding-top: 60px;
-  background: rgba(179, 179, 179, 0.582);
+  background: rgba(129, 129, 129, 0.582);
 }

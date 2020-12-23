@@ -207,9 +207,11 @@ export default function TourRequest(uuid) {
       selectedTourID: selectedTourID,
       selectedCarTitle: carTitle,
       selectedTourTitle: tourTitle,
+      totalCost: totalCost,
 
       assignedTourGuide:"",
       isAccepted: false,
+      status: "Open",
     };
     rentReqRef.push(rentRequest);
   };
