@@ -1,10 +1,25 @@
-import React, { useState } from "react";
-import { Card, Carousel, Table } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Card, CardDeck, Carousel, Table } from "react-bootstrap";
 import PopupMap from "./PopupMap";
+import PopupCards from "./PopupForCards";
 import firebase from "../../firebase";
 import Map from "./TourMapPreview";
 
 export default function TourViewList({ tour }) {
+  const [pointOfInterestList, setPointOfInterestList] = useState();
+  useEffect(() => {
+    const pointOfInterestRef = firebase.database().ref("poi");
+    pointOfInterestRef.on("value", (snapshot) => {
+      const pointOfInterest = snapshot.val();
+      const pointOfInterestList = [];
+      for (let id in pointOfInterest) {
+        pointOfInterestList.push({ id, ...pointOfInterest[id] });
+      }
+      setPointOfInterestList(pointOfInterestList);
+      console.log(pointOfInterestList);
+    });
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
@@ -12,10 +27,76 @@ export default function TourViewList({ tour }) {
     setIsOpen(!isOpen);
   };
 
+  const [isPoisOpen, setIsPoisOpen] = useState(false);
+  const togglePoiPopupMsg = (e) => {
+    e.preventDefault();
+    setIsPoisOpen(!isPoisOpen);
+  };
+
   const deleteTour = () => {
     const tourRef = firebase.database().ref("tour").child(tour.id);
     tourRef.remove();
     setIsOpen(!isOpen);
+  };
+
+  const oneCard = (el) => {
+    for (let i in tour.poi) {
+      if (tour.poi[i].id === el.id) {
+        return (
+          <>
+            <center>
+              <br />
+              <Card className="cardAsPopupItems" style={{ flex: 1 }}>
+                <Card.Body>
+                  <div key={el.id}>
+                    <Card.Title>
+                      <center>
+                        <h4>{`${el.name}`}</h4>
+                      </center>
+                    </Card.Title>
+                    <Carousel>
+                      {el.imageUrl
+                        ? el.imageUrl.map(({ id, url }) => {
+                            return (
+                              <Carousel.Item interval={500}>
+                                <div key={id}>
+                                  <img
+                                    className="d-block w-100"
+                                    src={url}
+                                    alt=""
+                                    width={320}
+                                    height={225}
+                                  />
+                                </div>
+                              </Carousel.Item>
+                            );
+                          })
+                        : ""}
+                    </Carousel>
+                    <br />
+                    {`City: ${el.city}`} <br />
+                    {` type: ${el.type}`} <br />
+                    {`  decription: ${el.decription}`} <br />
+                    {`  location: ${el.location}`} <br />
+                  </div>
+                </Card.Body>
+                <Card.Footer></Card.Footer>
+              </Card>
+            </center>
+          </>
+        );
+      }
+    }
+  };
+
+  const displayCard = () => {
+    return (
+      <CardDeck>
+        {pointOfInterestList
+          ? pointOfInterestList.map((el) => oneCard(el))
+          : ""}
+      </CardDeck>
+    );
   };
 
   return (
@@ -123,6 +204,16 @@ export default function TourViewList({ tour }) {
                 <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
               </p>
             </button>
+
+            <button
+              className="btn btn-secondary btn-lg"
+              onClick={togglePoiPopupMsg}
+            >
+              <p>
+                {`Tour Pois - `}
+                <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
+              </p>
+            </button>
           </center>
         </Card.Footer>
       </Card>
@@ -141,6 +232,30 @@ export default function TourViewList({ tour }) {
                   className="btn btn-warning btn-lg"
                   type="submit"
                   onClick={togglePopupMsg}
+                >
+                  {" "}
+                  OK{" "}
+                </button>
+              </center>
+            </>
+          }
+          handleClose={togglePopupMsg}
+        />
+      )}
+      {isPoisOpen && (
+        <PopupCards
+          content={
+            <>
+              <b>Points of Interests</b>
+              <div>
+                <center>{displayCard()}</center>
+              </div>
+              <br />
+              <center>
+                <button
+                  className="btn btn-warning btn-lg"
+                  type="submit"
+                  onClick={togglePoiPopupMsg}
                 >
                   {" "}
                   OK{" "}

@@ -132,6 +132,14 @@
   border-radius: 0;
 }
 
+.cardAsPopupItems {
+  
+  position: relative;
+  width: 85vw;
+  height: 80vh;
+  border-radius: 0;
+}
+
 .mobileTourCard {
   width: 100vw;
   border-radius: 0;
