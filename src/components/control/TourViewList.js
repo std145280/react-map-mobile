@@ -74,10 +74,11 @@ export default function TourViewList({ tour }) {
                         : ""}
                     </Carousel>
                     <br />
-                    {`City: ${el.city}`} <br />
-                    {` type: ${el.type}`} <br />
-                    {`  decription: ${el.decription}`} <br />
-                    {`  location: ${el.location}`} <br />
+                    <b>City:</b> {el.city} <br />
+                    <b>type:</b> {el.type} <br />
+                    {/* <b>short decription:</b> {el.description} <br />*/}
+                    <b>decription:</b> {el.descForCustomer} <br />
+                    <b>location:</b> {el.location} <br />
                   </div>
                 </Card.Body>
                 <Card.Footer></Card.Footer>
@@ -201,10 +202,10 @@ export default function TourViewList({ tour }) {
             >
               <p>
                 {`View Points on Map - `}
-                <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
+                <i class="fas fa-map-marked-alt" aria-hidden="true"></i>
               </p>
             </button>
-
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button
               className="btn btn-secondary btn-lg"
               onClick={togglePoiPopupMsg}
