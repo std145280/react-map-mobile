@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CardDeck, Card, Carousel, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
-import NavigationBar from "./NavigationBar";
+import NavigationBarGuide from "./NavigationBarGuide";
 import firebase from "../firebase";
 import PopupMsg from "./control/PopupMsg";
 import PopupMap from "./control/PopupMap";
@@ -34,7 +34,7 @@ export default function DashboardGuide() {
 
   return (
     <>
-      <NavigationBar />
+      <NavigationBarGuide />
 
       <Card className="cardAsItems" border="secondary">
         <Card.Header>

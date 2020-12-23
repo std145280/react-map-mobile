@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardDeck } from "react-bootstrap";
-import NavigationBar from "./NavigationBar";
+import NavigationBarGuide from "./NavigationBarGuide";
 import TourViewListGuide from "./control/TourViewListGuide";
 import firebase from "../firebase";
 import { Link, useHistory } from "react-router-dom";
@@ -22,7 +22,7 @@ export default function ToursForGuide() {
 
   return (
     <>
-      <NavigationBar />
+      <NavigationBarGuide />
       <div>
         <br />
         <b>Tours {`>`} All Tours </b>
@@ -31,7 +31,7 @@ export default function ToursForGuide() {
                 <button
                   className="btn btn-secondary btn-lg rounded-0"
                   type="submit"
-                  onClick={() => history.push("/")}
+                  onClick={() => history.push("/DashboardGuide")}
                 >
                   <i className="fas fa-chevron-left">{`   BACK`}</i>
                 </button>

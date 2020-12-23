@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CardDeck, Card, Carousel, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
-import NavigationBar from "./NavigationBar";
+import NavigationBarGuide from "./NavigationBarGuide";
 import firebase from "../firebase";
 import PopupMsg from "./control/PopupMsg";
 import PopupMap from "./control/PopupMap";
@@ -30,7 +30,7 @@ export default function ViewRequestsGuide() {
 
 return (
   <>
-    <NavigationBar />
+    <NavigationBarGuide />
     <div>
       <br />
       <b>Rent Requests</b>
@@ -39,7 +39,7 @@ return (
                 <button
                   className="btn btn-secondary btn-lg rounded-0"
                   type="submit"
-                  onClick={() => history.push("/")}
+                  onClick={() => history.push("/DashboardGuide")}
                 >
                   <i className="fas fa-chevron-left">{`   BACK`}</i>
                 </button>
