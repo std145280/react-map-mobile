@@ -42,7 +42,7 @@ export default function Dashboard() {
         </Card.Header>
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
-          <Card.Text>We offer tour packets....</Card.Text>
+          <Card.Text>See all our tour packets.</Card.Text>
           <button  className="btn btn-primary btn-lg w-100" onClick={() => history.push("/Tours")}>GO</button>
         </Card.Body>
       </Card>
@@ -54,7 +54,7 @@ export default function Dashboard() {
         </Card.Header>
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
-          <Card.Text>Book your tour now....</Card.Text>
+          <Card.Text>Book your tour now!</Card.Text>
           <button  className="btn btn-success btn-lg w-100" onClick={() => history.push("/TourRequest")}>GO</button>
         </Card.Body>
       </Card>

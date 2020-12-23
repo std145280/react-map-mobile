@@ -42,7 +42,7 @@ export default function DashboardGuide() {
         </Card.Header>
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
-          <Card.Text>We offer tour packets....</Card.Text>
+          <Card.Text>View Tours and Points of Interest</Card.Text>
           <button  className="btn btn-primary btn-lg w-100" onClick={() => history.push("/ToursForGuide")}>GO</button>
         </Card.Body>
       </Card>
