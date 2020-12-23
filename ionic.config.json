@@ -1,0 +1,7 @@
+{
+  "name": "TravelNow",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
