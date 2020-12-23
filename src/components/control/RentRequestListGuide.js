@@ -230,18 +230,18 @@ export default function RentRequestListGuide({ request }) {
                   <center>
                     {" "}
                     <button
-                      className="btn btn-warning btn-lg"
+                      className="btn btn-primary btn-lg"
                       type="submit"
                       onClick={toggleUnassignPopupMsg}
                     >
                       {" "}
-                      No{" "}
+                      Back{" "}
                     </button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button
-                      className="btn btn-success btn-lg"
+                      className="btn btn-danger btn-lg"
                       onClick={unassign}
-                    >
+                    > {`Drop `}
                       <i class="fas fa-check"></i>
                     </button>
                   </center>
@@ -296,15 +296,15 @@ export default function RentRequestListGuide({ request }) {
                   <center>
                     {" "}
                     <button
-                      className="btn btn-warning btn-lg"
+                      className="btn btn-primary btn-lg"
                       type="submit"
                       onClick={toggleVerificationPopupMsg}
                     >
                       {" "}
-                      No{" "}
+                      Back{" "}
                     </button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button className="btn btn-success btn-lg" onClick={assign}>
+                    <button className="btn btn-success btn-lg" onClick={assign}>{`Accept `}
                       <i class="fas fa-check"></i>
                     </button>
                   </center>
