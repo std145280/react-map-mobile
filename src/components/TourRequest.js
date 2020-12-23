@@ -201,15 +201,14 @@ export default function TourRequest(uuid) {
       startGeoLong: startLatlng.lng,
       finishGeoLat: finishLatlng.lat,
       finishGeoLong: finishLatlng.lng,
-
       startLocationName: startLocation,
       finishLocationName: finishLocation,
-
       selectedCarID: selectedCarID,
       selectedTourID: selectedTourID,
       selectedCarTitle: carTitle,
       selectedTourTitle: tourTitle,
 
+      assignedTourGuide:"",
       isAccepted: false,
     };
     rentReqRef.push(rentRequest);
