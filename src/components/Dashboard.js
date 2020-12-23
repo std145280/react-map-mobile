@@ -36,7 +36,7 @@ export default function Dashboard() {
     <>
       <NavigationBar />
 
-      <Card className="startCards" border="secondary">
+      <Card className="cardAsItems" border="secondary">
         <Card.Header>
           <b>Browse all available tours</b>
         </Card.Header>
@@ -48,7 +48,7 @@ export default function Dashboard() {
       </Card>
 
 
-      <Card className="startCards" border="secondary">
+      <Card className="cardAsItems" border="secondary">
         <Card.Header>
           <b>Book your tour</b>
         </Card.Header>
@@ -59,7 +59,7 @@ export default function Dashboard() {
         </Card.Body>
       </Card>
 
-      <Card className="startCards" border="secondary">
+      <Card className="cardAsItems" border="secondary">
         <Card.Header>
           <b>View Your Requests</b>
         </Card.Header>

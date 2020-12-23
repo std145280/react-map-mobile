@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { CardDeck} from "react-bootstrap";
+import { Card, CardDeck } from "react-bootstrap";
 import NavigationBar from "./NavigationBar";
 import TourViewList from "./control/TourViewList";
 import firebase from "../firebase";
-
+import { Link, useHistory } from "react-router-dom";
 
 export default function Tours() {
   const [tourList, setTourList] = useState();
-
+  const history = useHistory();
   useEffect(() => {
     const tourRef = firebase.database().ref("tour");
     tourRef.on("value", (snapshot) => {
@@ -26,13 +26,23 @@ export default function Tours() {
       <div>
         <br />
         <b>Tours {`>`} All Tours </b>
-
+        <br /><br />
+        <Card className="cardAsItems" border="secondary">
+                <button
+                  className="btn btn-secondary btn-lg rounded-0"
+                  type="submit"
+                  onClick={() => history.push("/")}
+                >
+                  <i className="fas fa-chevron-left">{`   BACK`}</i>
+                </button>
+              </Card>
         <CardDeck>
+          
           {tourList
             ? tourList.map((tour, index) => (
                 <TourViewList tour={tour} key={index} />
               ))
-            : ""}      
+            : ""}
         </CardDeck>
       </div>
     </>

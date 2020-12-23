@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Carousel, Table } from "react-bootstrap";
 import PopupMap from "./PopupMap";
 import firebase from "../../firebase";
-import Map from "./TourMapPreview"
+import Map from "./TourMapPreview";
 
 export default function TourViewList({ tour }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function TourViewList({ tour }) {
 
   return (
     <div>
-          <br/>  <br/>
+      <br />
       <Card className="cardAsItems" style={{ flex: 1 }}>
         <Card.Body>
           <Table striped bordered hover>
@@ -114,9 +114,14 @@ export default function TourViewList({ tour }) {
         </Card.Body>
         <Card.Footer>
           <center>
-            <button className="btn btn-secondary btn-lg" onClick={togglePopupMsg}><p>{`View Points on Map - `}
-            <i class="fa fa-map-marker-alt" aria-hidden="true"></i></p>
-
+            <button
+              className="btn btn-secondary btn-lg"
+              onClick={togglePopupMsg}
+            >
+              <p>
+                {`View Points on Map - `}
+                <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
+              </p>
             </button>
           </center>
         </Card.Footer>
@@ -130,14 +135,13 @@ export default function TourViewList({ tour }) {
                 {console.log(tour.poi)}
                 <Map.TourMapPreview tour={tour} />
               </div>
-              <br/>
+              <br />
               <center>
                 <button
                   className="btn btn-warning btn-lg"
                   type="submit"
                   onClick={togglePopupMsg}
                 >
-                   
                   {" "}
                   OK{" "}
                 </button>

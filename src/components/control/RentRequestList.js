@@ -20,10 +20,43 @@ export default function RentRequestList({ request }) {
     });
   };
 
+  const startTour = () => {
+
+    
+  }
+
+  const goToNavigation = () => {
+    if (request.status === "Ready")
+      return (
+        <button
+          className="btn btn-success btn-lg rounded-0 w-100"
+          type="submit"
+          onClick={startTour}
+        >
+          {`START  `}
+          <i class="fas fa-route"></i>
+        </button>
+      );
+    else {
+      return (
+        <button
+          className="btn btn-success btn-lg rounded-0 w-100"
+          type="submit"
+          //onClick={startTour}
+          disabled
+        >
+          {`START  `}
+          <i class="fas fa-route"></i>
+        </button>
+      );
+    }
+  };
+
   const viewUsersRequests = () => {
     if (currentUser.email === request.user) {
       return (
         <div>
+            <br />
           <Card className="cardAsItems" style={{ flex: 1 }}>
             <Card.Body>
               <Table striped bordered hover>
@@ -74,11 +107,11 @@ export default function RentRequestList({ request }) {
                     </td>
                   </tr>
                   <tr>
-                    <td >
+                    <td>
                       <b>Status: </b> {request.status}
                     </td>
-           
-                    <td >
+
+                    <td>
                       <b>Assigned to: </b> {request.assignedTourGuide}
                     </td>
                   </tr>
@@ -98,17 +131,11 @@ export default function RentRequestList({ request }) {
             </Card.Body>
             <Card.Footer>
               <center>
-                <button className="btn btn-danger" onClick={unassign}>
-                  <b>Unassign</b>
-                </button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button className="btn btn-success" onClick={assign}>
-                  <b>Assign</b>
-                </button>
+                {goToNavigation()}
               </center>
             </Card.Footer>
           </Card>
-          <br/>
+          <br />
         </div>
       );
     }
