@@ -32,7 +32,7 @@ export default function Tours() {
             ? tourList.map((tour, index) => (
                 <TourViewList tour={tour} key={index} />
               ))
-            : ""}
+            : ""}      
         </CardDeck>
       </div>
     </>
