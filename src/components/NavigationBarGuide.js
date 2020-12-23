@@ -43,21 +43,21 @@ export default function NavigationBar() {
             <NavDropdown title="Settings" id="collasible-nav-dropdown">
               <NavDropdown.Item
                 href="#settings"
-                onClick={() => history.push("/Settings")}
+                onClick={() => history.push("/SettingsGuide")}
               >
                 System Settings
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#profile"
-                onClick={() => history.push("/Profile")}
+                onClick={() => history.push("/ProfileGuide")}
               >
                 Profile
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#about"
-                onClick={() => history.push("/About")}
+                onClick={() => history.push("/AboutGuide")}
               >
                 About
               </NavDropdown.Item>

@@ -24,6 +24,9 @@ import ViewRequests from "./ViewRequests"
 import ToursForGuide from "./ToursForGuide"
 import ViewRequestsGuide from "./ViewRequestsGuide"
 import DashboardGuide from "./DashboardGuide"
+import AboutGuide from "./AboutGuide"
+import ProfileGuide from "./ProfileGuide"
+import SettingsGuide from "./SettingsGuide"
 
 function App() {
   return (
@@ -45,12 +48,15 @@ function App() {
                 />
 
                 <PrivateRoute path="/About" component={About} />
-
-
-
-
                 <PrivateRoute path="/Profile" component={Profile} />
                 <PrivateRoute path="/Settings" component={Settings} />
+
+                <PrivateRoute path="/AboutGuide" component={AboutGuide} />
+                <PrivateRoute path="/ProfileGuide" component={ProfileGuide} />
+                <PrivateRoute path="/SettingsGuide" component={SettingsGuide} />
+
+
+
                 <PrivateRoute path="/TourRequest" component={TourRequest} />
                 <PrivateRoute path="/Tours" component={Tours} />
 
