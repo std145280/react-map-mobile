@@ -22,6 +22,7 @@ import TourRequest from "./TourRequest";
 import Vehicles from "./Vehicles";
 import ViewRequests from "./ViewRequests"
 import ToursForGuide from "./ToursForGuide"
+import ViewRequestsGuide from "./ViewRequestsGuide"
 
 function App() {
   return (
@@ -54,8 +55,8 @@ function App() {
 
 
                 <PrivateRoute path="/ToursForGuide" component={ToursForGuide} />
-
-
+                <PrivateRoute path="/ViewRequestsGuide" component={ViewRequestsGuide} />
+      
 
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />
