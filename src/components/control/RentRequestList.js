@@ -1,10 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Table } from "react-bootstrap";
 import firebase from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import Map from "./LeafletMapTourOn";
+import PopupMap from "./PopupMap";
 
 export default function RentRequestList({ request }) {
+    const [tourList, setTourList] = useState();
+
+    const [tour, setTour] = useState();
+
+
+  useEffect(() => {
+    const tourRef = firebase.database().ref("tour");
+    tourRef.on("value", (snapshot) => {
+      const tours = snapshot.val();
+      const tourList = [];
+      for (let id in tours) {
+        tourList.push({ id, ...tours[id] });
+      }
+      setTourList(tourList);
+    });
+  }, []);
+
   const { currentUser, updatePassword, updateEmail } = useAuth();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const togglePopupMsg = (e) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
+
 
   const assign = () => {
     const rentReqRef = firebase.database().ref("rentRequest").child(request.id);
@@ -21,9 +48,13 @@ export default function RentRequestList({ request }) {
   };
 
   const startTour = () => {
-
-    
-  }
+    for (let i in tourList) {
+      if (tourList[i].id === request.selectedTourID) {
+        setTour(tourList[i]);
+        setIsOpen(!isOpen);
+      }
+    }
+  };
 
   const goToNavigation = () => {
     if (request.status === "Ready")
@@ -56,7 +87,7 @@ export default function RentRequestList({ request }) {
     if (currentUser.email === request.user) {
       return (
         <div>
-            <br />
+          <br />
           <Card className="cardAsItems" style={{ flex: 1 }}>
             <Card.Body>
               <Table striped bordered hover>
@@ -130,15 +161,47 @@ export default function RentRequestList({ request }) {
               </Table>
             </Card.Body>
             <Card.Footer>
-              <center>
-                {goToNavigation()}
-              </center>
+              <center>{goToNavigation()}</center>
             </Card.Footer>
           </Card>
           <br />
+          {isOpen && (
+        <PopupMap
+          content={
+            <>
+              <center>
+                <h3> Tours Points Of Interest </h3>
+              </center>
+              <div>
+    
+                <Map.LeafletMapTourOn
+                  tour={tour}
+                  startLatlng={[request.startGeoLat, request.startGeoLong]}
+                  finishLatlng={[request.finishGeoLat, request.finishGeoLong]}
+                  
+                />
+              </div>
+              <br />
+              <center>
+                {" "}
+                <button
+                  className="btn btn-success btn-lg"
+                  type="submit"
+                  onClick={togglePopupMsg}
+                >
+                  {" "}
+                  Done{" "}
+                </button>
+              </center>
+            </>
+          }
+        />
+      )}
         </div>
+        
       );
     }
+
   };
 
   return <>{viewUsersRequests()}</>;

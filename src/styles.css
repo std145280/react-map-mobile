@@ -141,6 +141,36 @@
   height: 100vh;
 }
 
+.SpecialMapPopup-box{
+  position: relative;
+  width: 100vw;
+
+  margin: 0 auto;
+  height: 100vh;
+
+  margin-top: calc(100vh - 100vh - 0px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #999;
+  overflow: auto;
+}
+
+.Special-box{
+  position: relative;
+  width: 100vw;
+
+  margin: 0 auto;
+  height: 100vh;
+
+  margin-top: calc(100vh - 100vh - 0px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #999;
+  overflow: auto;
+}
+
 
 body {
   padding-left: 3vw;
