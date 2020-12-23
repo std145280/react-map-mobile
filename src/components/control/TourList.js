@@ -68,7 +68,9 @@ export default function TourList({
     if (tourTime >= driveTime + tour.time){
       return (
         <div>
-           <Card className="mobileTourCard" style={{ flex: 1 }}>
+          <center>
+          <br />
+           <Card className="cardAsItems" style={{ flex: 1 }}>
             <Card.Body>
               <Table striped bordered hover>
                 <thead></thead>
@@ -216,7 +218,9 @@ export default function TourList({
               }
             />
           )}
+          </center>
         </div>
+        
       );
     }
 
