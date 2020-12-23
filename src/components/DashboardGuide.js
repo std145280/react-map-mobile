@@ -12,7 +12,7 @@ import Map from "./control/LeafletMap";
 import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
 
-export default function Dashboard() {
+export default function DashboardGuide() {
   const history = useHistory();
   const { currentUser, updatePassword, updateEmail } = useAuth()
 
@@ -38,35 +38,24 @@ export default function Dashboard() {
 
       <Card className="cardAsItems" border="secondary">
         <Card.Header>
-          <b>Browse all available Tours and Points of Interest</b>
+          <b>Browse Tours and Points of Interest</b>
         </Card.Header>
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>We offer tour packets....</Card.Text>
-          <button  className="btn btn-primary btn-lg w-100" onClick={() => history.push("/Tours")}>GO</button>
+          <button  className="btn btn-primary btn-lg w-100" onClick={() => history.push("/ToursForGuide")}>GO</button>
         </Card.Body>
       </Card>
 
 
       <Card className="cardAsItems" border="secondary">
         <Card.Header>
-          <b>Book your tour</b>
+          <b>View Requests</b>
         </Card.Header>
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
-          <Card.Text>Book your tour now....</Card.Text>
-          <button  className="btn btn-success btn-lg w-100" onClick={() => history.push("/TourRequest")}>GO</button>
-        </Card.Body>
-      </Card>
-
-      <Card className="cardAsItems" border="secondary">
-        <Card.Header>
-          <b>View Your Requests</b>
-        </Card.Header>
-        <Card.Body>
-          {/*<Card.Title>Browse all available tours</Card.Title>*/}
-          <Card.Text>View the progress of your tour requests.</Card.Text>
-          <button  className="btn btn-primary btn-lg w-100"  onClick={() => history.push("/ViewRequests")}>GO</button>
+          <Card.Text>View unassigned and assigned to you requests and their progress.</Card.Text>
+          <button  className="btn btn-primary btn-lg w-100"  onClick={() => history.push("/ViewRequestsGuide")}>GO</button>
         </Card.Body>
       </Card>
 

@@ -23,6 +23,7 @@ import Vehicles from "./Vehicles";
 import ViewRequests from "./ViewRequests"
 import ToursForGuide from "./ToursForGuide"
 import ViewRequestsGuide from "./ViewRequestsGuide"
+import DashboardGuide from "./DashboardGuide"
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
             <AuthProvider>
               <Switch>
                 <PrivateRoute exact path="/" component={Dashboard} />
+                <PrivateRoute exact path="/DashboardGuide" component={DashboardGuide} />
+
                 <PrivateRoute
                   path="/update-profile"
                   component={UpdateProfile}
