@@ -203,7 +203,7 @@ export default function TourViewListGuide({ tour }) {
         <Card.Footer>
           <center>
             <button
-              className="btn btn-secondary btn-lg"
+              className="btn btn-secondary btn-lg w-100"
               onClick={togglePopupMsg}
             >
               <p>
@@ -211,9 +211,9 @@ export default function TourViewListGuide({ tour }) {
                 <i class="fas fa-map-marked-alt" aria-hidden="true"></i>
               </p>
             </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <br/><br/>
             <button
-              className="btn btn-secondary btn-lg"
+              className="btn btn-secondary btn-lg w-100"
               onClick={togglePoiPopupMsg}
             >
               <p>
