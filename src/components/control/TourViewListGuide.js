@@ -5,7 +5,7 @@ import PopupCards from "./PopupForCards";
 import firebase from "../../firebase";
 import Map from "./TourMapPreview";
 
-export default function TourViewList({ tour }) {
+export default function TourViewListGuide({ tour }) {
   const [pointOfInterestList, setPointOfInterestList] = useState();
   useEffect(() => {
     const pointOfInterestRef = firebase.database().ref("poi");
@@ -77,6 +77,7 @@ export default function TourViewList({ tour }) {
                     <b>City:</b> {el.city} <br />
                     <b>type:</b> {el.type} <br /><br />
                     {/* <b>short decription:</b> {el.description} <br />*/}
+                    <b>Decription for Guide :</b> {el.descForGuide} <br /><br />
                     <b>Decription:</b> {el.descForCustomer} <br /><br />
                     <b>Location:</b> {el.location} <br />
                   </div>
@@ -176,6 +177,11 @@ export default function TourViewList({ tour }) {
                       <h4>{tour.title}</h4>
                     </center>
                   </Card.Title>
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="2">
+                  <b>Description Guide:</b> {tour.descForGuide}
                 </td>
               </tr>
               <tr>

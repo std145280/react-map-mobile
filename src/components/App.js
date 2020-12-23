@@ -21,6 +21,7 @@ import Tours from "./Tours";
 import TourRequest from "./TourRequest";
 import Vehicles from "./Vehicles";
 import ViewRequests from "./ViewRequests"
+import ToursForGuide from "./ToursForGuide"
 
 function App() {
   return (
@@ -45,13 +46,16 @@ function App() {
 
 
                 <PrivateRoute path="/Profile" component={Profile} />
-
                 <PrivateRoute path="/Settings" component={Settings} />
-
                 <PrivateRoute path="/TourRequest" component={TourRequest} />
                 <PrivateRoute path="/Tours" component={Tours} />
 
                 <PrivateRoute path="/ViewRequests" component={ViewRequests} />
+
+
+                <PrivateRoute path="/ToursForGuide" component={ToursForGuide} />
+
+
 
                 <Route path="/signup" component={Signup} />
                 <Route path="/login" component={Login} />
