@@ -18,7 +18,15 @@ export default function Login() {
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
+      
+      // Go to different menu and feature, if the user is guide (eg George) or user (default)      
+      switch (emailRef.current.value) {
+        case 'george@mail.com':
+          return history.push("/DashboardGuide");
+        default:
+          return history.push('/');
+      }
+      
     } catch {
       setError("Failed to log in")
     }
