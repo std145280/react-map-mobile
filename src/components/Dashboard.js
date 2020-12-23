@@ -43,7 +43,7 @@ export default function Dashboard() {
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>We offer tour packets....</Card.Text>
-          <Button onClick={() => history.push("/Tours")}>GO</Button>
+          <button  className="btn btn-primary btn-lg w-100" onClick={() => history.push("/Tours")}>GO</button>
         </Card.Body>
       </Card>
 
@@ -55,7 +55,7 @@ export default function Dashboard() {
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>Book your tour now....</Card.Text>
-          <Button onClick={() => history.push("/TourRequest")}>GO</Button>
+          <button  className="btn btn-success btn-lg w-100" onClick={() => history.push("/TourRequest")}>GO</button>
         </Card.Body>
       </Card>
 
@@ -66,7 +66,7 @@ export default function Dashboard() {
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>View the progress of your tour requests.</Card.Text>
-          <Button onClick={() => history.push("/ViewRequests")}>GO</Button>
+          <button  className="btn btn-primary btn-lg w-100"  onClick={() => history.push("/ViewRequests")}>GO</button>
         </Card.Body>
       </Card>
 
