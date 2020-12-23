@@ -8,10 +8,9 @@ import PopupMap from "./PopupMap";
 import PopupMsg from "./PopupMsg";
 
 export default function RentRequestListGuide({ request }) {
-    const [tourList, setTourList] = useState();
+  const [tourList, setTourList] = useState();
 
-    const [tour, setTour] = useState();
-
+  const [tour, setTour] = useState();
 
   useEffect(() => {
     const tourRef = firebase.database().ref("tour");
@@ -27,16 +26,17 @@ export default function RentRequestListGuide({ request }) {
 
   const { currentUser, updatePassword, updateEmail } = useAuth();
 
-
-
   const [isVerificationOpen, setIsVerificationOpen] = useState(false);
-
   const toggleVerificationPopupMsg = (e) => {
     e.preventDefault();
     setIsVerificationOpen(!isVerificationOpen);
   };
 
-
+  const [isUnassignOpen, setIsUnassignOpen] = useState(false);
+  const toggleUnassignPopupMsg = (e) => {
+    e.preventDefault();
+    setIsUnassignOpen(!isUnassignOpen);
+  };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,14 +45,14 @@ export default function RentRequestListGuide({ request }) {
     setIsOpen(!isOpen);
   };
 
-
   const assign = () => {
     const rentReqRef = firebase.database().ref("rentRequest").child(request.id);
     rentReqRef.update({
       isAccepted: true,
       assignedTourGuide: currentUser.email,
-      status: "Accepted"
+      status: "Accepted",
     });
+    setIsVerificationOpen(!isVerificationOpen);
   };
 
   const unassign = () => {
@@ -60,9 +60,9 @@ export default function RentRequestListGuide({ request }) {
     rentReqRef.update({
       isAccepted: false,
       assignedTourGuide: "",
-      status: "Open"
+      status: "Open",
     });
-
+    setIsUnassignOpen(!isUnassignOpen);
   };
 
   const startTour = () => {
@@ -101,26 +101,25 @@ export default function RentRequestListGuide({ request }) {
     }
   };
 
-
   const acceptAssigment = () => {
     if (request.status === "Open")
       return (
         <button
           className="btn btn-warning btn-lg rounded-0 w-100"
           type="submit"
-          onClick={assign}
+          onClick={toggleVerificationPopupMsg}
         >
           {`ACCEPT ASSIGNMENT  `}
           <i class="fas fa-vote-yea"></i>
         </button>
       );
-      //if status is ready then tourguide shound be able to unassign
-    else if (request.status !== "Ready"){
+    //if status is ready then tourguide shound be able to unassign
+    else if (request.status !== "Ready") {
       return (
         <button
           className="btn btn-danger btn-lg rounded-0 w-100"
           type="submit"
-          onClick={unassign}
+          onClick={toggleUnassignPopupMsg}
         >
           {`UN-ASSIGN  `}
           <i class="far fa-calendar-times"></i>
@@ -141,7 +140,10 @@ export default function RentRequestListGuide({ request }) {
   };
 
   const viewUsersRequests = () => {
-    if ((currentUser.email === request.assignedTourGuide) || (request.status === "Open")) {
+    if (
+      currentUser.email === request.assignedTourGuide ||
+      request.status === "Open"
+    ) {
       return (
         <div>
           <br />
@@ -209,86 +211,110 @@ export default function RentRequestListGuide({ request }) {
               </Table>
             </Card.Body>
             <Card.Footer>
-            <center>{acceptAssigment()}</center>
-            <br/>
+              <center>{acceptAssigment()}</center>
+              <br />
               <center>{goToNavigation()}</center>
             </Card.Footer>
           </Card>
           <br />
+
+          {isUnassignOpen && (
+            <PopupMsg
+              content={
+                <>
+                  <center>
+                    <h3> Do you want to drop this assignment? </h3>
+                  </center>
+                  <div></div>
+                  <br />
+                  <center>
+                    {" "}
+                    <button
+                      className="btn btn-warning btn-lg"
+                      type="submit"
+                      onClick={toggleUnassignPopupMsg}
+                    >
+                      {" "}
+                      No{" "}
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button
+                      className="btn btn-success btn-lg"
+                      onClick={unassign}
+                    >
+                      <i class="fas fa-check"></i>
+                    </button>
+                  </center>
+                </>
+              }
+            />
+          )}
+
           {isOpen && (
-        <PopupMap
-          content={
-            <>
-              <center>
-                <h3> Tours Points Of Interest </h3>
-              </center>
-              <div>
-    
-                <Map.LeafletMapTourOn
-                  tour={tour}
-                  startLatlng={[request.startGeoLat, request.startGeoLong]}
-                  finishLatlng={[request.finishGeoLat, request.finishGeoLong]}
-                  
-                />
-              </div>
-              <br />
-              <center>
-                {" "}
-                <button
-                  className="btn btn-success btn-lg"
-                  type="submit"
-                  onClick={togglePopupMsg}
-                >
-                  {" "}
-                  Done{" "}
-                </button>
-              </center>
-            </>
-          }
-        />
-      )}
+            <PopupMap
+              content={
+                <>
+                  <center>
+                    <h3> Tours Points Of Interest </h3>
+                  </center>
+                  <div>
+                    <Map.LeafletMapTourOn
+                      tour={tour}
+                      startLatlng={[request.startGeoLat, request.startGeoLong]}
+                      finishLatlng={[
+                        request.finishGeoLat,
+                        request.finishGeoLong,
+                      ]}
+                    />
+                  </div>
+                  <br />
+                  <center>
+                    {" "}
+                    <button
+                      className="btn btn-success btn-lg"
+                      type="submit"
+                      onClick={togglePopupMsg}
+                    >
+                      {" "}
+                      Done{" "}
+                    </button>
+                  </center>
+                </>
+              }
+            />
+          )}
 
-
-{isVerificationOpen && (
-        <PopupMsg
-          content={
-            <>
-              <center>
-                <h3> Tours Points Of Interest </h3>
-              </center>
-              <div>
-    
-                <Map.LeafletMapTourOn
-                  tour={tour}
-                  startLatlng={[request.startGeoLat, request.startGeoLong]}
-                  finishLatlng={[request.finishGeoLat, request.finishGeoLong]}
-                  
-                />
-              </div>
-              <br />
-              <center>
-                {" "}
-                <button
-                  className="btn btn-success btn-lg"
-                  type="submit"
-                  onClick={toggleVerificationPopupMsg}
-                >
-                  {" "}
-                  Done{" "}
-                </button>
-              </center>
-            </>
-          }
-        />
-      )}
-
-
-
+          {isVerificationOpen && (
+            <PopupMsg
+              content={
+                <>
+                  <center>
+                    <h3> Do you want to accept this assignment? </h3>
+                  </center>
+                  <div></div>
+                  <br />
+                  <center>
+                    {" "}
+                    <button
+                      className="btn btn-warning btn-lg"
+                      type="submit"
+                      onClick={toggleVerificationPopupMsg}
+                    >
+                      {" "}
+                      No{" "}
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button className="btn btn-success btn-lg" onClick={assign}>
+                      <i class="fas fa-check"></i>
+                    </button>
+                  </center>
+                </>
+              }
+            />
+          )}
         </div>
-        
       );
     }
-
   };
 
   return <>{viewUsersRequests()}</>;
