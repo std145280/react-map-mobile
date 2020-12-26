@@ -322,7 +322,7 @@ export default function TourRequest(uuid) {
   var tourCost;
   var totalCost;
   const selectedItemDisplay = () => {
-    for (let i = 0; i < TourList.length; i++) {
+    for (let i = 0; i < tourList.length; i++) {
       if (tourList[i].id === selectedTourID) {
         tourTitle = tourList[i].title;
         tourCost = parseInt(tourList[i].tourCost);
