@@ -21,6 +21,23 @@ export default function TourList({
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
+
+    if (isOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close Map Popup",
+      });
+    }else {
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Open Map Popup",
+      });
+    }
+
     setIsOpen(!isOpen);
   };
 
@@ -37,6 +54,14 @@ export default function TourList({
     setSelectedTourID(tour.id);
     setNext2(true);
     setTotalTimeForTour((driveTime+tour.time));
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Go To Screen 2",
+    });
+
   }
 
 

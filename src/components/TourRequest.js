@@ -63,12 +63,26 @@ export default function TourRequest(uuid) {
   const setStartLocationLatlng = (newLatlng) => {
     setStartLatlng(newLatlng);
     setHasStart(true);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Set Start LatLng",
+    });
   };
 
   const [finishLatlng, setFinishLatlng] = useState();
   const setFinishLocationLatlng = (newLatlng) => {
     setFinishLatlng(newLatlng);
     setHasFinish(true);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Set Finish LatLng",
+    });
   };
 
   const [radius, setRadius] = useState("");
@@ -93,12 +107,32 @@ export default function TourRequest(uuid) {
   const [isFinishMapOpen, setIsFinishMapOpen] = useState(false);
   const toggleMapPopupFINISH = (e) => {
     e.preventDefault();
+
+    if (isFinishMapOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close Finish Map",
+      });
+    }
+
     setIsFinishMapOpen(!isFinishMapOpen);
   };
 
   const [isStartMapOpen, setIsStartMapOpen] = useState(false);
   const toggleMapPopupSTART = (e) => {
     e.preventDefault();
+
+    if (isStartMapOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close Start Map",
+      });
+    }
+
     setIsStartMapOpen(!isStartMapOpen);
   };
 
@@ -124,6 +158,14 @@ export default function TourRequest(uuid) {
   const handleAvailableTourTime = (e) => {
     setTourTime(e.target.value);
     setHasTime(true);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Set TourTime",
+    });
+    
   };
 
   const addToPoi = (el) => {
@@ -185,6 +227,14 @@ export default function TourRequest(uuid) {
 
   const tempRentRequest = () => {
     setNext1(true);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Go To Screen 1",
+    });
+
   };
 
   var carTitle;
@@ -214,6 +264,13 @@ export default function TourRequest(uuid) {
       status: "Open",
     };
     rentReqRef.push(rentRequest);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Created TourRequest",
+    });
   };
 
   const diplayAddOrDeleteButton = (el) => {
@@ -295,16 +352,40 @@ export default function TourRequest(uuid) {
   const backToFirstSelector = (e) => {
     e.preventDefault();
     setNext1(false);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Return Screen 1",
+    });
+
   };
 
   const backToSecondSelector = (e) => {
     e.preventDefault();
     setNext2(false);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Return Screen 2",
+    });
+
   };
 
   const backToThirdSelector = (e) => {
     e.preventDefault();
     setNext3(false);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Return Screen 3",
+    });
+
   };
 
   const [selectedTourID, setSelectedTourID] = useState([]);
@@ -520,7 +601,16 @@ export default function TourRequest(uuid) {
                 <button
                   className="btn btn-secondary btn-lg rounded-0"
                   type="submit"
-                  onClick={() => history.push("/")}
+                  onClick={() => {
+                    history.push("/");
+                
+                    window.ga("send", {
+                      hitType: "event",
+                      eventCategory: "TourRequest",
+                      eventAction: "touch",
+                      eventLabel: Date().toLocaleString() + " - Back to Dashboard",
+                    });
+                  }}
                 >
                   <i className="fas fa-chevron-left">{`   BACK`}</i>
                 </button>

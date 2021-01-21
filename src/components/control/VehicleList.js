@@ -15,16 +15,38 @@ export default function VehicleList({
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
+
+    if (isOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close Map Popup",
+      });
+    }else {
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Open Map Popup",
+      });
+    }
+
     setIsOpen(!isOpen);
   };
 
   const vehicleSelectedHandle = () => {
     setSelectedCarID(vehicle.id);
     setNext3(true);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "TourRequest",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Go To Screen 3",
+    });
+
   }
-
-
-
 
   var vehicleLatlng = [vehicle.geoLat, vehicle.geoLong];
 
