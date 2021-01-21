@@ -39,7 +39,16 @@ return (
                 <button
                   className="btn btn-secondary btn-lg rounded-0"
                   type="submit"
-                  onClick={() => history.push("/DashboardGuide")}
+                  onClick={() => {history.push("/DashboardGuide")
+                
+                  window.ga("send", {
+                    hitType: "event",
+                    eventCategory: "ViewRequests (G)",
+                    eventAction: "touch",
+                    eventLabel: Date().toLocaleString() + " - Back to Dashboard (G)",
+                  });
+
+                }}
                 >
                   <i className="fas fa-chevron-left">{`   BACK`}</i>
                 </button>

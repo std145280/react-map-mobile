@@ -30,18 +30,40 @@ export default function RentRequestListGuide({ request }) {
   const toggleVerificationPopupMsg = (e) => {
     e.preventDefault();
     setIsVerificationOpen(!isVerificationOpen);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "ViewRequests (G)",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - SetVerification (G)",
+    });
   };
 
   const [isUnassignOpen, setIsUnassignOpen] = useState(false);
   const toggleUnassignPopupMsg = (e) => {
     e.preventDefault();
     setIsUnassignOpen(!isUnassignOpen);
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "ViewRequests (G)",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - SetAssign (G)",
+    });
   };
 
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
+    if (isOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "ViewRequests (G)",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close Tour Navigator (G)",
+      });
+    }
     setIsOpen(!isOpen);
   };
 
@@ -72,6 +94,13 @@ export default function RentRequestListGuide({ request }) {
         setIsOpen(!isOpen);
       }
     }
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "ViewRequests (G)",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Start Tour Navigator (G)",
+    });
   };
 
   const goToNavigation = () => {

@@ -47,8 +47,8 @@ export default function DashboardGuide() {
 
               window.ga("send", {
                 hitType: "event",
-                eventCategory: "Tours&PoIs",
-                eventAction: "click",
+                eventCategory: "Tours&PoIs (G)",
+                eventAction: "touch",
                 eventLabel: Date().toLocaleString() + " - Open Tours&PoIs (G)",
               });
             }}
@@ -74,8 +74,8 @@ export default function DashboardGuide() {
 
               window.ga("send", {
                 hitType: "event",
-                eventCategory: "ViewRequests",
-                eventAction: "click",
+                eventCategory: "ViewRequests (G)",
+                eventAction: "touch",
                 eventLabel:
                   Date().toLocaleString() + " - Open View Requests (G)",
               });

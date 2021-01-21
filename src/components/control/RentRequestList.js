@@ -29,8 +29,6 @@ export default function RentRequestList({ request }) {
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
-    setIsOpen(!isOpen);
-
     if (isOpen){
       window.ga("send", {
         hitType: "event",
@@ -39,7 +37,7 @@ export default function RentRequestList({ request }) {
         eventLabel: Date().toLocaleString() + " - Close Tour Navigator",
       });
     }
-
+    setIsOpen(!isOpen);
   };
 
 
