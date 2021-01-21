@@ -1,37 +1,43 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import React, { useRef, useState } from "react";
+import { Form, Button, Card, Alert } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Login() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const { login } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "Login",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Submit Login",
+    });
 
     try {
-      setError("")
-      setLoading(true)
-      await login(emailRef.current.value, passwordRef.current.value)
-      
-      // Go to different menu and feature, if the user is guide (eg George) or user (default)      
+      setError("");
+      setLoading(true);
+      await login(emailRef.current.value, passwordRef.current.value);
+
+      // Go to different menu and feature, if the user is guide (eg George) or user (default)
       switch (emailRef.current.value) {
-        case 'george@mail.com':
+        case "george@mail.com":
           return history.push("/DashboardGuide");
         default:
-          return history.push('/');
+          return history.push("/");
       }
-      
     } catch {
-      setError("Failed to log in")
+      setError("Failed to log in");
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
@@ -62,5 +68,5 @@ export default function Login() {
         Need an account? <Link to="/signup">Sign Up</Link>
       </div>
     </>
-  )
+  );
 }
