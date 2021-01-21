@@ -6,7 +6,7 @@ import NavigationBar from "./NavigationBar";
 import firebase from "../firebase";
 import PopupMsg from "./control/PopupMsg";
 import PopupMap from "./control/PopupMap";
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext";
 
 import Map from "./control/LeafletMap";
 import "leaflet/dist/leaflet.css";
@@ -14,7 +14,7 @@ import PopupCards from "./control/PopupForCards";
 
 export default function Dashboard() {
   const history = useHistory();
-  const { currentUser, updatePassword, updateEmail } = useAuth()
+  const { currentUser, updatePassword, updateEmail } = useAuth();
 
   const [reqList, setReqList] = useState();
   useEffect(() => {
@@ -29,9 +29,6 @@ export default function Dashboard() {
     });
   }, []);
 
-
-
-
   return (
     <>
       <NavigationBar />
@@ -43,10 +40,22 @@ export default function Dashboard() {
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>See all our tour packets.</Card.Text>
-          <button  className="btn btn-primary btn-lg w-100" onClick={() => history.push("/Tours")}>GO</button>
+          <button
+            className="btn btn-primary btn-lg w-100"
+            onClick={() => {history.push("/Tours");
+          
+            window.ga("send", {
+              hitType: "event",
+              eventCategory: "Tours&PoIs",
+              eventAction: "click",
+              eventLabel: Date().toLocaleString() + " - Open Tours&PoIs",
+            });
+          }}
+          >
+            GO
+          </button>
         </Card.Body>
       </Card>
-
 
       <Card className="cardAsItems" border="secondary">
         <Card.Header>
@@ -55,7 +64,20 @@ export default function Dashboard() {
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>Book your tour now!</Card.Text>
-          <button  className="btn btn-success btn-lg w-100" onClick={() => history.push("/TourRequest")}>GO</button>
+          <button
+            className="btn btn-success btn-lg w-100"
+            onClick={() => {history.push("/TourRequest");
+          
+            window.ga("send", {
+              hitType: "event",
+              eventCategory: "TourRequest",
+              eventAction: "click",
+              eventLabel: Date().toLocaleString() + " - Open Tour Request",
+            });
+          }}
+          >
+            GO
+          </button>
         </Card.Body>
       </Card>
 
@@ -66,10 +88,23 @@ export default function Dashboard() {
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>View the progress of your tour requests.</Card.Text>
-          <button  className="btn btn-primary btn-lg w-100"  onClick={() => history.push("/ViewRequests")}>GO</button>
+          <button
+            className="btn btn-primary btn-lg w-100"
+            onClick={() => {
+              history.push("/ViewRequests");
+
+              window.ga("send", {
+                hitType: "event",
+                eventCategory: "ViewRequests",
+                eventAction: "click",
+                eventLabel: Date().toLocaleString() + " - Open View Requests",
+              });
+            }}
+          >
+            GO
+          </button>
         </Card.Body>
       </Card>
-
     </>
   );
 }
