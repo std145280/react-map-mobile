@@ -13,6 +13,13 @@ export default function NavigationBar() {
   async function handleLogout() {
     setError("");
 
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "NavBar (G)",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - LogOut",
+    });
+
     try {
       await logout();
       history.push("/login");
@@ -43,21 +50,48 @@ export default function NavigationBar() {
             <NavDropdown title="Settings" id="collasible-nav-dropdown">
               <NavDropdown.Item
                 href="#settings"
-                onClick={() => history.push("/SettingsGuide")}
+                onClick={() => {history.push("/SettingsGuide");
+              
+                window.ga("send", {
+                  hitType: "event",
+                  eventCategory: "NavBar (G)",
+                  eventAction: "touch",
+                  eventLabel: Date().toLocaleString() + " - SettingsGuide",
+                });
+              
+              }}
               >
                 System Settings
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#profile"
-                onClick={() => history.push("/ProfileGuide")}
+                onClick={() => {history.push("/ProfileGuide");
+              
+                window.ga("send", {
+                  hitType: "event",
+                  eventCategory: "NavBar (G)",
+                  eventAction: "touch",
+                  eventLabel: Date().toLocaleString() + " - ProfileGuide",
+                });
+              
+              }}
               >
                 Profile
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#about"
-                onClick={() => history.push("/AboutGuide")}
+                onClick={() => {history.push("/AboutGuide");
+              
+                window.ga("send", {
+                  hitType: "event",
+                  eventCategory: "NavBar (G)",
+                  eventAction: "touch",
+                  eventLabel: Date().toLocaleString() + " - AboutGuide",
+                });
+
+              }}
               >
                 About
               </NavDropdown.Item>

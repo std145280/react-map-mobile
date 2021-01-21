@@ -13,9 +13,16 @@ export default function NavigationBar() {
   async function handleLogout() {
     setError("");
 
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "NavBar",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - LogOut",
+    });
+
     try {
       await logout();
-      history.push("/login");
+      history.push("/login");    
     } catch {
       setError("Failed to log out");
     }
@@ -43,21 +50,48 @@ export default function NavigationBar() {
             <NavDropdown title="Settings" id="collasible-nav-dropdown">
               <NavDropdown.Item
                 href="#settings"
-                onClick={() => history.push("/Settings")}
+                onClick={() => {history.push("/Settings");
+              
+                window.ga("send", {
+                  hitType: "event",
+                  eventCategory: "NavBar",
+                  eventAction: "touch",
+                  eventLabel: Date().toLocaleString() + " - Go to Settings",
+                });
+              
+              }}
               >
                 System Settings
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#profile"
-                onClick={() => history.push("/Profile")}
+                onClick={() => {history.push("/Profile");
+              
+                window.ga("send", {
+                  hitType: "event",
+                  eventCategory: "NavBar",
+                  eventAction: "touch",
+                  eventLabel: Date().toLocaleString() + " - Go to Profile",
+                });
+
+              }}
               >
                 Profile
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#about"
-                onClick={() => history.push("/About")}
+                onClick={() => {history.push("/About");
+              
+                window.ga("send", {
+                  hitType: "event",
+                  eventCategory: "NavBar",
+                  eventAction: "touch",
+                  eventLabel: Date().toLocaleString() + " - Go to About",
+                });
+
+              }}
               >
                 About
               </NavDropdown.Item>
