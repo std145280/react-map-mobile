@@ -6,7 +6,7 @@ import NavigationBarGuide from "./NavigationBarGuide";
 import firebase from "../firebase";
 import PopupMsg from "./control/PopupMsg";
 import PopupMap from "./control/PopupMap";
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from "../contexts/AuthContext";
 
 import Map from "./control/LeafletMap";
 import "leaflet/dist/leaflet.css";
@@ -14,7 +14,7 @@ import PopupCards from "./control/PopupForCards";
 
 export default function DashboardGuide() {
   const history = useHistory();
-  const { currentUser, updatePassword, updateEmail } = useAuth()
+  const { currentUser, updatePassword, updateEmail } = useAuth();
 
   const [reqList, setReqList] = useState();
   useEffect(() => {
@@ -29,9 +29,6 @@ export default function DashboardGuide() {
     });
   }, []);
 
-
-
-
   return (
     <>
       <NavigationBarGuide />
@@ -43,10 +40,23 @@ export default function DashboardGuide() {
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
           <Card.Text>View Tours and Points of Interest</Card.Text>
-          <button  className="btn btn-primary btn-lg w-100" onClick={() => history.push("/ToursForGuide")}>GO</button>
+          <button
+            className="btn btn-primary btn-lg w-100"
+            onClick={() => {
+              history.push("/ToursForGuide");
+
+              window.ga("send", {
+                hitType: "event",
+                eventCategory: "Tours&PoIs",
+                eventAction: "click",
+                eventLabel: Date().toLocaleString() + " - Open Tours&PoIs (G)",
+              });
+            }}
+          >
+            GO
+          </button>
         </Card.Body>
       </Card>
-
 
       <Card className="cardAsItems" border="secondary">
         <Card.Header>
@@ -54,11 +64,27 @@ export default function DashboardGuide() {
         </Card.Header>
         <Card.Body>
           {/*<Card.Title>Browse all available tours</Card.Title>*/}
-          <Card.Text>View unassigned and assigned to you requests and their progress.</Card.Text>
-          <button  className="btn btn-primary btn-lg w-100"  onClick={() => history.push("/ViewRequestsGuide")}>GO</button>
+          <Card.Text>
+            View unassigned and assigned to you requests and their progress.
+          </Card.Text>
+          <button
+            className="btn btn-primary btn-lg w-100"
+            onClick={() => {
+              history.push("/ViewRequestsGuide");
+
+              window.ga("send", {
+                hitType: "event",
+                eventCategory: "ViewRequests",
+                eventAction: "click",
+                eventLabel:
+                  Date().toLocaleString() + " - Open View Requests (G)",
+              });
+            }}
+          >
+            GO
+          </button>
         </Card.Body>
       </Card>
-
     </>
   );
 }
