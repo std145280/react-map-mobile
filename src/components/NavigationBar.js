@@ -22,76 +22,88 @@ export default function NavigationBar() {
 
     try {
       await logout();
-      history.push("/login");    
+      history.push("/login");
     } catch {
       setError("Failed to log out");
     }
   }
 
   return (
-
     <div className="admin-panel-container">
       <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand href="#home"  onClick={() => history.push("/")}> <img src={logo} alt="Logo" width={96} height={48}/> </Navbar.Brand>
+        <Navbar.Brand
+          href="#home"
+          onClick={() => {
+            history.push("/");
+
+            window.ga("send", {
+              hitType: "event",
+              eventCategory: "NavBar",
+              eventAction: "touch",
+              eventLabel: Date().toLocaleString() + " - Go to Dashboard",
+            });
+          }}
+        >
+          {" "}
+          <img src={logo} alt="Logo" width={96} height={48} />{" "}
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-{/*
+            {/*
           <Nav.Link
               href="#rent_requests"
               onClick={() => history.push("/RentRequests")}
             >
               Rent Requests
 </Nav.Link> */}
-            
           </Nav>
           <Nav>
-            
             <NavDropdown title="Settings" id="collasible-nav-dropdown">
               <NavDropdown.Item
                 href="#settings"
-                onClick={() => {history.push("/Settings");
-              
-                window.ga("send", {
-                  hitType: "event",
-                  eventCategory: "NavBar",
-                  eventAction: "touch",
-                  eventLabel: Date().toLocaleString() + " - Go to Settings",
-                });
-              
-              }}
+                onClick={() => {
+                  history.push("/Settings");
+
+                  window.ga("send", {
+                    hitType: "event",
+                    eventCategory: "NavBar",
+                    eventAction: "touch",
+                    eventLabel: Date().toLocaleString() + " - Go to Settings",
+                  });
+                }}
               >
                 System Settings
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#profile"
-                onClick={() => {history.push("/Profile");
-              
-                window.ga("send", {
-                  hitType: "event",
-                  eventCategory: "NavBar",
-                  eventAction: "touch",
-                  eventLabel: Date().toLocaleString() + " - Go to Profile",
-                });
+                onClick={() => {
+                  history.push("/Profile");
 
-              }}
+                  window.ga("send", {
+                    hitType: "event",
+                    eventCategory: "NavBar",
+                    eventAction: "touch",
+                    eventLabel: Date().toLocaleString() + " - Go to Profile",
+                  });
+                }}
               >
                 Profile
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 href="#about"
-                onClick={() => {history.push("/About");
-              
-                window.ga("send", {
-                  hitType: "event",
-                  eventCategory: "NavBar",
-                  eventAction: "touch",
-                  eventLabel: Date().toLocaleString() + " - Go to About",
-                });
+                onClick={() => {
+                  history.push("/About");
 
-              }}
+                  window.ga("send", {
+                    hitType: "event",
+                    eventCategory: "NavBar",
+                    eventAction: "touch",
+                    eventLabel: Date().toLocaleString() + " - Go to About",
+                  });
+                }}
               >
                 About
               </NavDropdown.Item>
