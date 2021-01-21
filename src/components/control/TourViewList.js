@@ -25,12 +25,42 @@ export default function TourViewList({ tour }) {
   const togglePopupMsg = (e) => {
     e.preventDefault();
     setIsOpen(!isOpen);
+    if (!isOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "Tours&PoIs",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close Map Popup",
+      });
+    }else {
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "Tours&PoIs",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Open Map Popup",
+      });
+    }
   };
 
   const [isPoisOpen, setIsPoisOpen] = useState(false);
   const togglePoiPopupMsg = (e) => {
     e.preventDefault();
     setIsPoisOpen(!isPoisOpen);
+    if (!isOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "Tours&PoIs",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close PoIs Desc Popup",
+      });
+    }else {
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "Tours&PoIs",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Open PoIs Desc Popup",
+      });
+    }    
   };
 
   const deleteTour = () => {

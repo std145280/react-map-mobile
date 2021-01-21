@@ -16,7 +16,6 @@ var center = { lat: 37.9838, lng: 23.7275 };
 var geoLatlng;
 var locationString;
 
-
 class TourMapPreview extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +46,6 @@ class TourMapPreview extends React.Component {
     this.setState({ markers });
   };
 
-
   render() {
     {
       center = { lat: this.props.tour.geoLat, lng: this.props.tour.geoLong };
@@ -56,56 +54,57 @@ class TourMapPreview extends React.Component {
       console.log(this.props.tour);
     }
     return (
-        <>
-      <Map
-        style={height}
-        center={center}
-        zoom={10}
-        ref={(m) => {
-          this.leafletMap = m;
-        }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
+      <>
+        <Map
+          style={height}
+          center={center}
+          zoom={10}
+          ref={(m) => {
+            this.leafletMap = m;
+          }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
 
-        {this.props.tour.poi
-          ? this.props.tour.poi.map(
-              ({
-                city,
-                descForCustomer,
-                descForGuide,
-                name,
-                geoLat,
-                geoLng,
-                imageUrl,
-              }) => {
-                return (
-                  <Marker
-                    key={city}
-                    position={[geoLat, geoLng]}
-                    icon={markerIcon}
-                  >
-                    <Popup>
-                      <span>
-                        <img className="w-100 h-100" src={imageUrl[0].url} />
-                        <b>
-                          Title:</b> {name} <br/>
+          {this.props.tour.poi
+            ? this.props.tour.poi.map(
+                ({
+                  city,
+                  descForCustomer,
+                  descForGuide,
+                  name,
+                  geoLat,
+                  geoLng,
+                  imageUrl,
+                }) => {
+                  return (
+                    <Marker
+                      key={city}
+                      position={[geoLat, geoLng]}
+                      icon={markerIcon}
+                    >
+                      <Popup>
+                        {window.ga("send", {
+                          hitType: "event",
+                          eventCategory: "Tours&PoIs",
+                          eventAction: "touch",
+                          eventLabel:
+                            Date().toLocaleString() + " - Preview PoI on Map",
+                        })}
+                        <span>
+                          <img className="w-100 h-100" src={imageUrl[0].url} />
+                          <b>Title:</b> {name} <br />
                           {descForCustomer}
-                        
-                      </span>
-                    </Popup>
-                   
-                  </Marker>
-                );
-              }
-            )
-          : ""}
-      </Map>
-
-
-
+                        </span>
+                      </Popup>
+                    </Marker>
+                  );
+                }
+              )
+            : ""}
+        </Map>
       </>
     );
   }
