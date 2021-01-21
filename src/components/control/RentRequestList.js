@@ -30,6 +30,16 @@ export default function RentRequestList({ request }) {
   const togglePopupMsg = (e) => {
     e.preventDefault();
     setIsOpen(!isOpen);
+
+    if (isOpen){
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "ViewRequests",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Close Tour Navigator",
+      });
+    }
+
   };
 
 
@@ -54,6 +64,13 @@ export default function RentRequestList({ request }) {
         setIsOpen(!isOpen);
       }
     }
+
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "ViewRequests",
+      eventAction: "touch",
+      eventLabel: Date().toLocaleString() + " - Start Tour Navigator",
+    });
   };
 
   const goToNavigation = () => {

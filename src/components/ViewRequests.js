@@ -28,31 +28,41 @@ export default function ViewRents() {
     });
   }, []);
 
-return (
-  <>
-    <NavigationBar />
-    <div>
-      <br />
-      <b>Rent Requests</b>
-      <br /><br />
+  return (
+    <>
+      <NavigationBar />
+      <div>
+        <br />
+        <b>Rent Requests</b>
+        <br />
+        <br />
         <Card className="cardAsItems" border="secondary">
-                <button
-                  className="btn btn-secondary btn-lg rounded-0"
-                  type="submit"
-                  onClick={() => history.push("/")}
-                >
-                  <i className="fas fa-chevron-left">{`   BACK`}</i>
-                </button>
-              </Card>
+          <button
+            className="btn btn-secondary btn-lg rounded-0"
+            type="submit"
+            onClick={() => {
+              history.push("/");
 
-      <CardDeck>
-        {rentRequestList
-          ? rentRequestList.map((request, index) => (
-              <RentRequestList request={request} key={index} />
-            ))
-          : ""}
-      </CardDeck>
-    </div>
-  </>
-);
+              window.ga("send", {
+                hitType: "event",
+                eventCategory: "ViewRequests",
+                eventAction: "touch",
+                eventLabel: Date().toLocaleString() + " - Back to Dashboard",
+              });
+            }}
+          >
+            <i className="fas fa-chevron-left">{`   BACK`}</i>
+          </button>
+        </Card>
+
+        <CardDeck>
+          {rentRequestList
+            ? rentRequestList.map((request, index) => (
+                <RentRequestList request={request} key={index} />
+              ))
+            : ""}
+        </CardDeck>
+      </div>
+    </>
+  );
 }
