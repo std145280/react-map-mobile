@@ -27,6 +27,7 @@ import DashboardGuide from "./DashboardGuide"
 import AboutGuide from "./AboutGuide"
 import ProfileGuide from "./ProfileGuide"
 import SettingsGuide from "./SettingsGuide"
+import Analytics from "react-router-ga";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <div className="appStyles">
         <div>
           <Router>
+          <Analytics id="UA-187590481-2" debug>
             <AuthProvider>
               <Switch>
                 <PrivateRoute exact path="/" component={Dashboard} />
@@ -72,6 +74,7 @@ function App() {
                 <Route path="/forgot-password" component={ForgotPassword} />
               </Switch>
             </AuthProvider>
+            </Analytics>
           </Router>
         </div>
       </div>
