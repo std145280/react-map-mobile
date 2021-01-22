@@ -26,18 +26,27 @@ export default function Tours() {
       <div>
         <br />
         <b>Tours {`>`} All Tours </b>
-        <br /><br />
+        <br />
+        <br />
         <Card className="cardAsItems" border="secondary">
-                <button
-                  className="btn btn-secondary btn-lg rounded-0"
-                  type="submit"
-                  onClick={() => history.push("/")}
-                >
-                  <i className="fas fa-chevron-left">{`   BACK`}</i>
-                </button>
-              </Card>
+          <button
+            className="btn btn-secondary btn-lg rounded-0"
+            type="submit"
+            onClick={() => {
+              history.push("/");
+
+              window.ga("send", {
+                hitType: "event",
+                eventCategory: "Tours&PoIs",
+                eventAction: "touch",
+                eventLabel: Date().toLocaleString() + " - Back to Dashboard",
+              });
+            }}
+          >
+            <i className="fas fa-chevron-left">{`   BACK`}</i>
+          </button>
+        </Card>
         <CardDeck>
-          
           {tourList
             ? tourList.map((tour, index) => (
                 <TourViewList tour={tour} key={index} />

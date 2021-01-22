@@ -115,7 +115,14 @@ export default function TourRequest(uuid) {
         eventAction: "touch",
         eventLabel: Date().toLocaleString() + " - Close Finish Map",
       });
-    }
+    } else {
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Open Finish Map",
+      });
+    } 
 
     setIsFinishMapOpen(!isFinishMapOpen);
   };
@@ -130,6 +137,13 @@ export default function TourRequest(uuid) {
         eventCategory: "TourRequest",
         eventAction: "touch",
         eventLabel: Date().toLocaleString() + " - Close Start Map",
+      });
+    } else {
+      window.ga("send", {
+        hitType: "event",
+        eventCategory: "TourRequest",
+        eventAction: "touch",
+        eventLabel: Date().toLocaleString() + " - Open Start Map",
       });
     }
 
@@ -158,14 +172,6 @@ export default function TourRequest(uuid) {
   const handleAvailableTourTime = (e) => {
     setTourTime(e.target.value);
     setHasTime(true);
-
-    window.ga("send", {
-      hitType: "event",
-      eventCategory: "TourRequest",
-      eventAction: "touch",
-      eventLabel: Date().toLocaleString() + " - Set TourTime",
-    });
-    
   };
 
   const addToPoi = (el) => {
@@ -226,7 +232,6 @@ export default function TourRequest(uuid) {
   };
 
   const tempRentRequest = () => {
-    setNext1(true);
 
     window.ga("send", {
       hitType: "event",
@@ -234,6 +239,8 @@ export default function TourRequest(uuid) {
       eventAction: "touch",
       eventLabel: Date().toLocaleString() + " - Go To Screen 1",
     });
+
+    setNext1(true);
 
   };
 

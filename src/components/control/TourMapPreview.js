@@ -86,13 +86,6 @@ class TourMapPreview extends React.Component {
                       icon={markerIcon}
                     >
                       <Popup>
-                        {window.ga("send", {
-                          hitType: "event",
-                          eventCategory: "Tours&PoIs",
-                          eventAction: "touch",
-                          eventLabel:
-                            Date().toLocaleString() + " - Preview PoI on Map",
-                        })}
                         <span>
                           <img className="w-100 h-100" src={imageUrl[0].url} />
                           <b>Title:</b> {name} <br />

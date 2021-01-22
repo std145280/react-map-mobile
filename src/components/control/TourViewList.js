@@ -24,8 +24,8 @@ export default function TourViewList({ tour }) {
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
-    setIsOpen(!isOpen);
-    if (!isOpen){
+    
+    if (isOpen){
       window.ga("send", {
         hitType: "event",
         eventCategory: "Tours&PoIs",
@@ -40,13 +40,14 @@ export default function TourViewList({ tour }) {
         eventLabel: Date().toLocaleString() + " - Open Map Popup",
       });
     }
+    setIsOpen(!isOpen);
   };
 
   const [isPoisOpen, setIsPoisOpen] = useState(false);
   const togglePoiPopupMsg = (e) => {
     e.preventDefault();
-    setIsPoisOpen(!isPoisOpen);
-    if (!isOpen){
+    
+    if (isPoisOpen){
       window.ga("send", {
         hitType: "event",
         eventCategory: "Tours&PoIs",
@@ -61,6 +62,7 @@ export default function TourViewList({ tour }) {
         eventLabel: Date().toLocaleString() + " - Open PoIs Desc Popup",
       });
     }    
+    setIsPoisOpen(!isPoisOpen);
   };
 
   const deleteTour = () => {
