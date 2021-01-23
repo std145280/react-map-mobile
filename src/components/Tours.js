@@ -5,7 +5,18 @@ import TourViewList from "./control/TourViewList";
 import firebase from "../firebase";
 import { Link, useHistory } from "react-router-dom";
 
+var stringStartTime;
+
 export default function Tours() {
+
+  //starts with 1 because there is the event of entering this page
+  const [clickCounter, setClickCounter] = useState(1);
+
+  //initialization
+  useEffect(() => {
+    stringStartTime = Date().toLocaleString();
+  }, []);
+
   const [tourList, setTourList] = useState();
   const history = useHistory();
   useEffect(() => {
@@ -34,13 +45,22 @@ export default function Tours() {
             type="submit"
             onClick={() => {
               history.push("/");
-
+              //we dont use clickCounter++ because we already counted this click at the closing of the popup
+              //setClickCounter(clickCounter => clickCounter + 1);
               window.ga("send", {
                 hitType: "event",
                 eventCategory: "Tours&PoIs",
                 eventAction: "touch",
                 eventLabel: Date().toLocaleString() + " - Back to Dashboard",
               });
+
+              window.ga("send", {
+                hitType: "event",
+                eventCategory: "Tours&PoIs @ " + stringStartTime,
+                eventAction: "click",
+                eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
+              });
+
             }}
           >
             <i className="fas fa-chevron-left">{`   BACK`}</i>

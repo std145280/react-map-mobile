@@ -5,7 +5,8 @@ import PopupCards from "./PopupForCards";
 import firebase from "../../firebase";
 import Map from "./TourMapPreview";
 
-export default function TourViewList({ tour }) {
+export default function TourViewList({ tour,   setClickCounter, 
+  clickCounter }) {
   const [pointOfInterestList, setPointOfInterestList] = useState();
   useEffect(() => {
     const pointOfInterestRef = firebase.database().ref("poi");
@@ -24,7 +25,7 @@ export default function TourViewList({ tour }) {
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
-    
+    setClickCounter(clickCounter => clickCounter + 1);
     if (isOpen){
       window.ga("send", {
         hitType: "event",
@@ -46,7 +47,7 @@ export default function TourViewList({ tour }) {
   const [isPoisOpen, setIsPoisOpen] = useState(false);
   const togglePoiPopupMsg = (e) => {
     e.preventDefault();
-    
+    setClickCounter(clickCounter => clickCounter + 1);
     if (isPoisOpen){
       window.ga("send", {
         hitType: "event",
@@ -63,12 +64,6 @@ export default function TourViewList({ tour }) {
       });
     }    
     setIsPoisOpen(!isPoisOpen);
-  };
-
-  const deleteTour = () => {
-    const tourRef = firebase.database().ref("tour").child(tour.id);
-    tourRef.remove();
-    setIsOpen(!isOpen);
   };
 
   const oneCard = (el) => {
