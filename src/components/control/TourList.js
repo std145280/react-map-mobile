@@ -16,12 +16,14 @@ export default function TourList({
   setSelectedTourID,
   setNext2,
   setTotalTimeForTour,
+  setClickCounter, 
+  clickCounter,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
-
+    setClickCounter(clickCounter => clickCounter + 1);
     if (isOpen){
       window.ga("send", {
         hitType: "event",
@@ -54,7 +56,7 @@ export default function TourList({
     setSelectedTourID(tour.id);
     setNext2(true);
     setTotalTimeForTour((driveTime+tour.time));
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",

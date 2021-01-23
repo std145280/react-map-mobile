@@ -21,7 +21,17 @@ import { withLeaflet } from "react-leaflet";
 import VehicleList from "./control/VehicleList";
 import TourList from "./control/TourList";
 
+var stringStartTime;
+
 export default function TourRequest(uuid) {
+
+  //starts with 1 because there is the event of entering this page
+  const [clickCounter, setClickCounter] = useState(1);
+
+  //initialization
+  useEffect(() => {
+    stringStartTime = Date().toLocaleString();
+  }, []);
 
   const { currentUser, updatePassword, updateEmail } = useAuth()
 
@@ -63,7 +73,7 @@ export default function TourRequest(uuid) {
   const setStartLocationLatlng = (newLatlng) => {
     setStartLatlng(newLatlng);
     setHasStart(true);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",
@@ -76,7 +86,7 @@ export default function TourRequest(uuid) {
   const setFinishLocationLatlng = (newLatlng) => {
     setFinishLatlng(newLatlng);
     setHasFinish(true);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",
@@ -107,7 +117,7 @@ export default function TourRequest(uuid) {
   const [isFinishMapOpen, setIsFinishMapOpen] = useState(false);
   const toggleMapPopupFINISH = (e) => {
     e.preventDefault();
-
+    setClickCounter(clickCounter => clickCounter + 1);
     if (isFinishMapOpen){
       window.ga("send", {
         hitType: "event",
@@ -130,7 +140,7 @@ export default function TourRequest(uuid) {
   const [isStartMapOpen, setIsStartMapOpen] = useState(false);
   const toggleMapPopupSTART = (e) => {
     e.preventDefault();
-
+    setClickCounter(clickCounter => clickCounter + 1);
     if (isStartMapOpen){
       window.ga("send", {
         hitType: "event",
@@ -232,7 +242,7 @@ export default function TourRequest(uuid) {
   };
 
   const tempRentRequest = () => {
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",
@@ -277,6 +287,15 @@ export default function TourRequest(uuid) {
       eventCategory: "TourRequest",
       eventAction: "touch",
       eventLabel: Date().toLocaleString() + " - Created TourRequest",
+    });
+
+    //we dont use clickCounter++ because we already counted this click at the closing of the popup
+    //event with all clicks and start and finish time for easier reviewing
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "New Book @ " + stringStartTime,
+      eventAction: "click",
+      eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
     });
   };
 
@@ -359,7 +378,7 @@ export default function TourRequest(uuid) {
   const backToFirstSelector = (e) => {
     e.preventDefault();
     setNext1(false);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",
@@ -372,7 +391,7 @@ export default function TourRequest(uuid) {
   const backToSecondSelector = (e) => {
     e.preventDefault();
     setNext2(false);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",
@@ -385,7 +404,7 @@ export default function TourRequest(uuid) {
   const backToThirdSelector = (e) => {
     e.preventDefault();
     setNext3(false);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",
@@ -562,6 +581,9 @@ export default function TourRequest(uuid) {
                     setSelectedCarID={setSelectedCarID}
                     setNext3={setNext3}
                     startLatlng={startLatlng}
+                    setClickCounter={setClickCounter}
+                    clickCounter={clickCounter}
+
                   />
                 ))
               : ""}
@@ -592,6 +614,8 @@ export default function TourRequest(uuid) {
                     setSelectedTourID={setSelectedTourID}
                     setNext2={setNext2}
                     setTotalTimeForTour={setTotalTimeForTour}
+                    setClickCounter={setClickCounter}
+                    clickCounter={clickCounter}
                   />
                 ))
               : ""}
@@ -610,7 +634,7 @@ export default function TourRequest(uuid) {
                   type="submit"
                   onClick={() => {
                     history.push("/");
-                
+                    setClickCounter(clickCounter => clickCounter + 1);
                     window.ga("send", {
                       hitType: "event",
                       eventCategory: "TourRequest",
@@ -713,7 +737,7 @@ export default function TourRequest(uuid) {
                   <div>
                     <PointSelectorMap.PointSelectorMap
                       setLocationLatlng={setStartLocationLatlng}
-                      setLocationName={setStartLocationName}
+                      setLocationName={setStartLocationName}                    
                     />
                   </div>
                   <br />

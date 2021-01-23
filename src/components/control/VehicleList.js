@@ -9,13 +9,15 @@ export default function VehicleList({
   vehicle,
   setSelectedCarID,
   setNext3,
-  startLatlng,
+  startLatlng, 
+  setClickCounter, 
+  clickCounter,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopupMsg = (e) => {
     e.preventDefault();
-
+    setClickCounter(clickCounter => clickCounter + 1);
     if (isOpen){
       window.ga("send", {
         hitType: "event",
@@ -38,7 +40,7 @@ export default function VehicleList({
   const vehicleSelectedHandle = () => {
     setSelectedCarID(vehicle.id);
     setNext3(true);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "TourRequest",
