@@ -5,7 +5,7 @@ import PopupCards from "./PopupForCards";
 import firebase from "../../firebase";
 import Map from "./TourMapPreview";
 
-export default function TourViewList({ tour,   setClickCounter, 
+export default function TourViewList({ tour, setClickCounter, 
   clickCounter }) {
   const [pointOfInterestList, setPointOfInterestList] = useState();
   useEffect(() => {

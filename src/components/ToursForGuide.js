@@ -11,6 +11,11 @@ export default function ToursForGuide() {
   //starts with 1 because there is the event of entering this page
   const [clickCounter, setClickCounter] = useState(1);
 
+  useEffect(() => {
+    setClickCounter(clickCounter => clickCounter + 1);
+  }, []);
+  
+  
   //initialization
   useEffect(() => {
     stringStartTime = Date().toLocaleString();
@@ -56,7 +61,7 @@ export default function ToursForGuide() {
               window.ga("send", {
                 hitType: "event",
                 eventCategory: "Tours&PoIs (G) @ " + stringStartTime,
-                eventAction: "click",
+                eventAction: "touch",
                 eventLabel:
                   Date().toLocaleString() + " - Total clicks: " + clickCounter,
               });
@@ -68,7 +73,7 @@ export default function ToursForGuide() {
         <CardDeck>
           {tourList
             ? tourList.map((tour, index) => (
-                <TourViewListGuide tour={tour} key={index} />
+                <TourViewListGuide tour={tour} key={index} setClickCounter={setClickCounter} clickCounter={clickCounter} />
               ))
             : ""}
         </CardDeck>

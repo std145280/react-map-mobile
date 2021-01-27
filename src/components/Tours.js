@@ -57,7 +57,7 @@ export default function Tours() {
               window.ga("send", {
                 hitType: "event",
                 eventCategory: "Tours&PoIs @ " + stringStartTime,
-                eventAction: "click",
+                eventAction: "touch",
                 eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
               });
 
@@ -69,7 +69,7 @@ export default function Tours() {
         <CardDeck>
           {tourList
             ? tourList.map((tour, index) => (
-                <TourViewList tour={tour} key={index} />
+                <TourViewList tour={tour} key={index} setClickCounter={setClickCounter} clickCounter={clickCounter} />
               ))
             : ""}
         </CardDeck>

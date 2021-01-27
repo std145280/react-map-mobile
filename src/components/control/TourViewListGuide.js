@@ -7,7 +7,9 @@ import Map from "./TourMapPreview";
 
 export default function TourViewListGuide({ tour,   setClickCounter, 
   clickCounter }) {
+
   const [pointOfInterestList, setPointOfInterestList] = useState();
+  
   useEffect(() => {
     const pointOfInterestRef = firebase.database().ref("poi");
     pointOfInterestRef.on("value", (snapshot) => {

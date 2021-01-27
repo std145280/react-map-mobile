@@ -33,6 +33,10 @@ export default function TourRequest(uuid) {
     stringStartTime = Date().toLocaleString();
   }, []);
 
+  useEffect(() => {
+    setClickCounter(clickCounter => clickCounter + 1);
+  }, []);
+  
   const { currentUser, updatePassword, updateEmail } = useAuth()
 
   useEffect(() => {
@@ -294,7 +298,7 @@ export default function TourRequest(uuid) {
     window.ga("send", {
       hitType: "event",
       eventCategory: "New Book @ " + stringStartTime,
-      eventAction: "click",
+      eventAction: "touch",
       eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
     });
   };

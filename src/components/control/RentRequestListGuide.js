@@ -7,7 +7,7 @@ import PopupMap from "./PopupMap";
 
 import PopupMsg from "./PopupMsg";
 
-export default function RentRequestListGuide({ request }) {
+export default function RentRequestListGuide({ request, clickCounter, setClickCounter }) {
   const [tourList, setTourList] = useState();
 
   const [tour, setTour] = useState();
@@ -30,7 +30,7 @@ export default function RentRequestListGuide({ request }) {
   const toggleVerificationPopupMsg = (e) => {
     e.preventDefault();
     setIsVerificationOpen(!isVerificationOpen);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "ViewRequests (G)",
@@ -43,7 +43,7 @@ export default function RentRequestListGuide({ request }) {
   const toggleUnassignPopupMsg = (e) => {
     e.preventDefault();
     setIsUnassignOpen(!isUnassignOpen);
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "ViewRequests (G)",
@@ -64,6 +64,7 @@ export default function RentRequestListGuide({ request }) {
         eventLabel: Date().toLocaleString() + " - Close Tour Navigator (G)",
       });
     }
+    setClickCounter(clickCounter => clickCounter + 1);
     setIsOpen(!isOpen);
   };
 
@@ -74,6 +75,7 @@ export default function RentRequestListGuide({ request }) {
       assignedTourGuide: currentUser.email,
       status: "Accepted",
     });
+    setClickCounter(clickCounter => clickCounter + 1);
     setIsVerificationOpen(!isVerificationOpen);
   };
 
@@ -84,6 +86,7 @@ export default function RentRequestListGuide({ request }) {
       assignedTourGuide: "",
       status: "Open",
     });
+    setClickCounter(clickCounter => clickCounter + 1);
     setIsUnassignOpen(!isUnassignOpen);
   };
 
@@ -94,7 +97,7 @@ export default function RentRequestListGuide({ request }) {
         setIsOpen(!isOpen);
       }
     }
-
+    setClickCounter(clickCounter => clickCounter + 1);
     window.ga("send", {
       hitType: "event",
       eventCategory: "ViewRequests (G)",

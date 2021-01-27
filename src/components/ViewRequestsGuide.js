@@ -12,9 +12,23 @@ import Map from "./control/LeafletMap";
 import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
 
+var stringStartTime;
+
 export default function ViewRequestsGuide() {
+  //starts with 1 because there is the event of entering this page
+  const [clickCounter, setClickCounter] = useState(1);
   const history = useHistory();
   const [rentRequestList, setRentRequestList] = useState();
+
+  useEffect(() => {
+    setClickCounter(clickCounter => clickCounter + 1);
+  }, []);
+  
+
+  //initialization
+  useEffect(() => {
+    stringStartTime = Date().toLocaleString();
+  }, []);
 
   useEffect(() => {
     const rentReqRef = firebase.database().ref("rentRequest");
@@ -48,6 +62,15 @@ return (
                     eventLabel: Date().toLocaleString() + " - Back to Dashboard (G)",
                   });
 
+                  setClickCounter(clickCounter => clickCounter + 1);
+
+                  window.ga("send", {
+                    hitType: "event",
+                    eventCategory: "View/Accept Assigment@ " + stringStartTime,
+                    eventAction: "touch",
+                    eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
+                  });
+
                 }}
                 >
                   <i className="fas fa-chevron-left">{`   BACK`}</i>
@@ -57,7 +80,7 @@ return (
       <CardDeck>
         {rentRequestList
           ? rentRequestList.map((request, index) => (
-              <RentRequestListGuide request={request} key={index} />
+              <RentRequestListGuide request={request} key={index} clickCounter={clickCounter} setClickCounter={setClickCounter} />
             ))
           : ""}
       </CardDeck>
