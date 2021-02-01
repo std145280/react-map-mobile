@@ -6,6 +6,7 @@ import firebase from "../firebase";
 import { Link, useHistory } from "react-router-dom";
 
 var stringStartTime;
+var tsStart;
 
 export default function Tours() {
 
@@ -54,9 +55,13 @@ export default function Tours() {
                 eventLabel: Date().toLocaleString() + " - Back to Dashboard",
               });
 
+              var tsFinish = Math. round((new Date()). getTime() / 1000);
+              //using UNIX timestamp for calculating the total time in seconds
+              var totalSeconds = tsFinish - tsStart;
+
               window.ga("send", {
                 hitType: "event",
-                eventCategory: "Tours&PoIs @ " + stringStartTime,
+                eventCategory: "Tours&PoIs @ " + stringStartTime  + " - a: " + clickCounter + " ,s:" + totalSeconds,
                 eventAction: "touch",
                 eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
               });

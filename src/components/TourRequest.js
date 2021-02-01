@@ -22,6 +22,7 @@ import VehicleList from "./control/VehicleList";
 import TourList from "./control/TourList";
 
 var stringStartTime;
+var tsStart;
 
 export default function TourRequest(uuid) {
 
@@ -293,11 +294,15 @@ export default function TourRequest(uuid) {
       eventLabel: Date().toLocaleString() + " - Created TourRequest",
     });
 
+    var tsFinish = Math. round((new Date()). getTime() / 1000);
+    //using UNIX timestamp for calculating the total time in seconds
+    var totalSeconds = tsFinish - tsStart;
+
     //we dont use clickCounter++ because we already counted this click at the closing of the popup
     //event with all clicks and start and finish time for easier reviewing
     window.ga("send", {
       hitType: "event",
-      eventCategory: "New Book @ " + stringStartTime,
+      eventCategory: "New Book @ " + stringStartTime + " - a: " + clickCounter + " ,s:" + totalSeconds,
       eventAction: "touch",
       eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
     });

@@ -13,6 +13,7 @@ import "leaflet/dist/leaflet.css";
 import PopupCards from "./control/PopupForCards";
 
 var stringStartTime;
+var tsStart;
 
 export default function ViewRequestsGuide() {
   //starts with 1 because there is the event of entering this page
@@ -64,9 +65,13 @@ return (
 
                   setClickCounter(clickCounter => clickCounter + 1);
 
+                  var tsFinish = Math. round((new Date()). getTime() / 1000);
+                  //using UNIX timestamp for calculating the total time in seconds
+                  var totalSeconds = tsFinish - tsStart;
+
                   window.ga("send", {
                     hitType: "event",
-                    eventCategory: "View/Accept Assigment@ " + stringStartTime,
+                    eventCategory: "View/Accept Assigment@ " + stringStartTime + " - a: " + clickCounter + " ,s:" + totalSeconds,
                     eventAction: "touch",
                     eventLabel: Date().toLocaleString() + " - Total clicks: " + clickCounter,
                   });
