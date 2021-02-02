@@ -29,6 +29,7 @@ export default function ViewRequestsGuide() {
   //initialization
   useEffect(() => {
     stringStartTime = Date().toLocaleString();
+    tsStart = Math. round((new Date()). getTime() / 1000);
   }, []);
 
   useEffect(() => {

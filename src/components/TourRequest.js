@@ -32,6 +32,7 @@ export default function TourRequest(uuid) {
   //initialization
   useEffect(() => {
     stringStartTime = Date().toLocaleString();
+    tsStart = Math. round((new Date()). getTime() / 1000);
   }, []);
 
   useEffect(() => {

@@ -16,6 +16,7 @@ export default function Tours() {
   //initialization
   useEffect(() => {
     stringStartTime = Date().toLocaleString();
+    tsStart = Math. round((new Date()). getTime() / 1000);
   }, []);
 
   const [tourList, setTourList] = useState();
